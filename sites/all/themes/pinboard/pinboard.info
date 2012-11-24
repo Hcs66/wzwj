@@ -1,0 +1,50 @@
+
+name = Pin Board
+description = Premium Drupal theme by <a href="http://www.themesnap.com">ThemeSnap.com</a>.
+screenshot = screenshot.png
+version = "7.x-1.0"
+core = 7.x
+
+settings[tm_value_0] = themesnap
+settings[tm_value_1] = 31408169@N04
+settings[tm_value_2] = 1
+settings[tm_value_3] = custom
+settings[tm_value_4] = museo
+settings[tm_value_5] = 1
+
+dependencies[] = pinboard_helper
+
+regions[header] = Header
+regions[sidebar_top_left] = Sidebar Top Left
+regions[sidebar_top_right] = Sidebar Top Right
+regions[sidebar_top_menu] = Sidebar Top Menu
+regions[sidebar_top_button] = Sidebar Top Button
+regions[sidebar_welcome] = Sidebar Welcome
+regions[content] = Content
+regions[sidebar_ad] = Sidebar Ad
+regions[sidebar_right] = Sidebar Right
+
+
+regions[footer_one] = Footer One
+regions[footer_two] = Footer Two
+regions[footer_three] = Footer Three
+regions[footer_four] = Footer Four
+regions[footer_copyright] = Footer Copyright
+
+stylesheets[all][] = css/base.css
+stylesheets[all][] = css/skeleton.css
+stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/a_main_styles.css
+stylesheets[all][] = css/a_block.css
+stylesheets[all][] = css/header.css
+stylesheets[all][] = css/top_menu_subj_bar.css
+stylesheets[all][] = css/pin_box.css
+stylesheets[all][] = css/pin_overlay.css
+stylesheets[all][] = css/profile.css
+stylesheets[all][] = css/board.css
+stylesheets[all][] = css/page.css
+
+scripts[] = scr/jquery.masonry.js
+scripts[] = scr/jquery.infinitescroll.js
+scripts[] = scr/jquery.tweet.min.js
+scripts[] = scr/like.js

@@ -1,0 +1,52 @@
+/*BOARD PAGE SPECIFIC CSS*/
+
+div.board {
+    float:left;
+    width:222px;
+    padding:0 0 9px 0;
+    margin: 5px;
+    background: url(img/pin_box_bot_shadow.png) bottom no-repeat;
+}
+
+div.board_in {
+    background: #fff ;
+    padding:5px 0px 0;
+    border:solid 1px #999;
+}
+
+.board h2 {
+    padding:0px 0px 0 0;
+    margin: 2px 15px 8px 15px;
+    line-height: 20px;
+    font-size: 15px;
+}
+
+.thumb {
+    margin: 0px 10px 15px 15px;
+}
+.board a img {
+    float: left;
+    width: 61px; height: 61px;
+    margin: 0 3px 3px 0;
+}
+
+    
+    
+ .board .follow_b {
+    background: url(img/info_box_shadow_h21.png) center 1px  repeat-x;
+    border-top: 1px solid #999;
+    text-align: center;
+ }
+ 
+ .board .follow_b a {
+    display: block;
+    padding: 10px;
+}
+
+.noimgpinbrd {
+width: 61px;
+height: 61px;
+float: left;
+margin: 0 3px 3px 0;
+background-color: #eee;
+}

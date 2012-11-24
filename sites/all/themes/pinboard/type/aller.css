@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'AllerRegular';
+    src: url('aller/aller_rg-webfont.eot?') format('eot'),
+         url('aller/aller_rg-webfont.woff') format('woff'),
+         url('aller/aller_rg-webfont.ttf') format('truetype'),
+         url('aller/aller_rg-webfont.svg#webfont05QLJQmH') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body {
+	font-family: 'AllerRegular';
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'AllerRegular';
+	font-weight: normal;
+}
+

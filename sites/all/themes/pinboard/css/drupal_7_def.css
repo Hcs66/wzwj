@@ -1,0 +1,21 @@
+/*23.02.2012 by andrew*/
+
+
+/*red cube test for css includeing (@)*/
+@import url("drupal_7_def/test.css");
+
+
+@import url("drupal_7_def/comment.css");
+@import url("drupal_7_def/contextual.css");
+@import url("drupal_7_def/field.css");
+@import url("drupal_7_def/jquery.ui.core.css");
+@import url("drupal_7_def/jquery.ui.theme.css");
+@import url("drupal_7_def/overlay-child.css");
+@import url("drupal_7_def/overlay-parent.css");
+@import url("drupal_7_def/shortcut.css");
+@import url("drupal_7_def/system.base.css");
+@import url("drupal_7_def/system.menus.css");
+@import url("drupal_7_def/system.messages.css");
+@import url("drupal_7_def/system.theme.css");
+@import url("drupal_7_def/toolbar.css");
+@import url("drupal_7_def/user.css");

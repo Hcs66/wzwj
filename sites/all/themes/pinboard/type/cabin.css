@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'CabinRegular';
+    src: url('cabin/Cabin-Regular-webfont.eot');
+    src: url('cabin/Cabin-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('cabin/Cabin-Regular-webfont.woff') format('woff'),
+         url('cabin/Cabin-Regular-webfont.ttf') format('truetype'),
+         url('cabin/Cabin-Regular-webfont.svg#CabinRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+body {
+	font-family: 'CabinRegular';
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'CabinRegular';
+	font-weight: normal;
+}

@@ -1,0 +1,81 @@
+/* TOP_MENU_SUBJ_BAR */
+
+
+
+#top_menu_subj_bar {
+    position: relative;
+    background:#f1f1ef url(img/subj_menu_bottom_shadow.png) bottom repeat-x;
+    height: 20px;
+    padding: 10px 0 10px 0;
+    margin: 0px 0 0 0;
+    box-shadow: 0px 5px 5px #666;
+}
+
+
+#top_menu_subj_bar ul{
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+#top_menu_subj_bar ul li{
+    display: inline;
+    padding: 10px 30px 10px 10px;
+    list-style:none;
+    position: relative;
+    background: url(img/subj_menu_b_r_shad.png) center right  no-repeat;
+}
+#top_menu_subj_bar ul li a {
+    font-size:11pt;
+    text-decoration:none;
+    
+}
+
+#top_menu_subj_bar ul li.expanded a{
+    padding: 0 20px 0 0;
+    background: url(img/arrow_exp_active.png) center right  no-repeat;
+}
+#top_menu_subj_bar ul li.expanded ul li a{
+	background: none;
+	padding: 5px 5px 5px 20px;
+	display:block;
+}
+#top_menu_subj_bar ul li.expanded ul li a:hover {
+	background-color: #dadada;
+	/*padding: 2px;*/
+}
+    #top_menu_subj_bar ul li ul{
+        display: none;
+	width: 340px;
+        position:absolute;
+        top: 36px; left: -20px;
+        padding: 10px 10px 10px 20px;
+        padding: 0;
+        z-index: 5000;
+        background: #fff;
+        box-shadow: 0px 5px 10px #333;
+        
+    }
+
+	#top_menu_subj_bar ul li:hover ul, #top_menu_subj_bar ul li ul:hover{
+	    display:block;
+	    z-index: 5000;
+	}
+
+	#top_menu_subj_bar ul li ul li {
+	    display: block;
+	    width: 170px;
+	    float: left;
+	    margin: 0;
+	    padding: 4px 0 0 0;
+	    padding:0;
+	    background: 0;
+	    text-align: left;
+	}
+
+
+#top_menu_subj_bar .right_bottons {
+    position: absolute;
+    top: 4px; right: 10px;
+    z-index: 1;
+}

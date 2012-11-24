@@ -1,0 +1,21 @@
+
+#top_menu_subj_bar ul li{
+    padding: 10px 30px 10px 10px;
+    background: url(img/subj_menu_b_r_shad.png) center right  no-repeat;
+}
+
+#top_menu_subj_bar ul li.expanded a{
+    padding: 0 0 0 20px;
+    background: url(img/arrow_exp_active.png) center left  no-repeat;
+}
+#top_menu_subj_bar ul li.expanded ul li a{
+	padding: 5px 20px 5px 5px;
+}
+    #top_menu_subj_bar ul li ul{
+        right: 10px;
+    }
+    
+	#top_menu_subj_bar ul li ul li {
+  float: right;
+	    text-align: right;
+	}

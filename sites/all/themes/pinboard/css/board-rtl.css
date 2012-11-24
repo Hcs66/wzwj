@@ -1,0 +1,21 @@
+div.board {
+    float:right;
+    width:222px;
+    padding:0 0 9px 0;
+    margin: 5px;
+    background: url(img/pin_box_bot_shadow.png) bottom no-repeat;
+}
+
+.thumb {
+    margin: 0px 15px 15px 10px;
+}
+
+.board a img {
+    float: right;
+    margin: 0 0 3px 3px;
+}
+
+.noimgpinbrd {
+float: right;
+margin: 0 0 3px 3px;
+}

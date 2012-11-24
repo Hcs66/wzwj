@@ -1,0 +1,78 @@
+/*PROFILE*/
+
+#profile_bar{
+    font-size: 12px;
+}
+
+.profile_bar_in {
+    background: white;
+    border:solid 1px #999;
+	margin-bottom: 15px;
+}
+
+#profile_bar h1 {
+    font-size: 28px;
+    margin: 15px 10px 5px 10px;
+}
+
+#profile_bar .profile_image,#profile_bar p {
+    margin: 5px 10px 5px 10px;
+}
+
+#profile_bar .follow_all_button_cont {
+    background: url(img/info_box_shadow_h21.png) center 1px  repeat-x;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#profile_bar .follow_all_button_cont a {
+    display: block;
+    padding: 10px;
+}
+
+#profile_bar ul.profile_links {
+    padding: 10px 0 0 10px; 
+}
+
+#profile_bar ul.profile_links li {
+    list-style: none;
+    display: inline;
+}
+
+/*ACTIVITY*/
+
+#profile_bar .activity li {
+    padding: 5px 10px 5px 10px;
+    border-top: 1px solid #999;
+    font-size: 11px;
+    
+}
+
+#profile_bar .activity li img{
+    float: left;
+    width: 30px; height: 30px;
+    margin: 4px 10px 0 0;
+    
+}
+
+#profile_bar .activity li span{
+    display: block;
+    color: #999;
+    font-size: 10px;
+}
+.aboutuser {
+padding: 5px 10px 5px 10px;
+}
+.flr {
+float:right;
+margin:10px;
+}
+.flr a {
+border: solid 1px #999;
+padding: 5px 10px;
+background-color: #fff;
+font-weight: bold;
+}

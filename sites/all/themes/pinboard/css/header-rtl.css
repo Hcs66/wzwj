@@ -1,0 +1,113 @@
+#logo_bar{
+    margin: 20px 15px 0px 20px;
+    float:right;
+}
+
+.right_bottons {
+    float:left;
+}
+#top_menu_bar {
+    margin:28px 0px 0 20px;
+    float:left;
+}
+
+#top_menu_bar ul li, .right_bottons ul li {
+    float:right;
+    padding: 0 0 0 10px;
+}
+
+#top_menu_bar ul li.expanded {
+    
+    background: url(img/arrow_exp_active.png) center left no-repeat;
+    padding: 0 0 0 15px;
+    margin: 0 0 0 8px;
+}
+
+
+    #top_menu_bar ul li ul{
+        right: 20px;
+    }
+    
+    
+    #top_menu_bar ul li ul li{
+            padding: 10px 35px 10px 0;  
+    }
+    
+
+#search_form_bar {
+    float:left;
+    padding: 26px 0 0 20px;
+}
+
+#search_form_bar div#edit-actions{
+    position: absolute;
+    top: 5px; left: 5px;
+}
+
+#search_form_bar div#edit-actions--2{
+    position: absolute;
+    top: 5px; left: 5px;
+}
+
+#search_form_bar input.form-submit{
+    position: absolute;
+    left: 0px;
+}
+
+/* #Tablet (Portrait)
+================================================== */
+
+    /* Note: Design for a width of 768px */
+
+    @media only screen and (min-width: 768px) and (max-width: 959px) {
+    
+        #header{
+/*            background:#fff;*/
+        }
+        #logo_bar,#top_menu_bar,#search_form_bar{
+            position:relative;
+            width:100%;
+            top:0;
+            right:0;
+            text-align:center;
+            padding: 0;
+        }
+        #logo_bar {
+            margin: 10px 0 5px 0;
+        }
+        
+        #search_form_bar{
+            padding: 0;
+        }
+    }
+
+
+/*  #Mobile (Portrait)
+================================================== */
+
+    /* Note: Design for a width of 320px */
+
+    @media only screen and (max-width: 767px) {
+        #header{
+/*            background:red;*/
+        }
+        
+        
+        
+        #logo_bar,#top_menu_bar,#search_form_bar{
+            position:relative;
+            width:100%;
+            top:0;
+            right:0;
+            text-align:center;
+        }
+        #logo_bar {
+            margin: 10px 0 5px 0;
+        }
+        #search_form_bar{
+            padding: 0;
+        }
+
+
+    }
+

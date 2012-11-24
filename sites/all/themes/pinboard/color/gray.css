@@ -1,0 +1,7 @@
+a, a:visited { color: #676767; }
+a:hover, a:focus { color: #909090; }
+#top_menu_subj_bar ul.menu li a.active-trail,
+#top_menu_bar ul.menu li a.active-trail,
+#top_menu_subj_bar ul.menu li a.active,
+#top_menu_bar ul.menu li a.active
+{ color: #000; }

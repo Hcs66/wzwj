@@ -1,0 +1,14 @@
+@font-face {
+ font-family: 'QlassikMediumRegular';
+ src: url('qlassik/Qlassik_TB-webfont.eot');
+ src: local('☺'), url('qlassik/Qlassik_TB-webfont.woff') format('woff'), url('qlassik/Qlassik_TB-webfont.ttf') format('truetype'), url('qlassik/Qlassik_TB-webfont.svg#webfontjlPjPke5') format('svg');
+ font-weight: normal;
+ font-style: normal;
+}
+body {
+	font-family: 'QlassikMediumRegular';
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'QlassikMediumRegular';
+	font-weight: normal;
+}

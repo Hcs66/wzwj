@@ -1,0 +1,13 @@
+name = Pin Board Helper
+description = Helper For Theme Pin Board
+core = 7.x
+dependencies[] = rate
+dependencies[] = node
+dependencies[] = comment
+dependencies[] = contact
+dependencies[] = transliteration
+
+version = "7.x-1.0"
+core = "7.x"
+datestamp = "1298364142"
+

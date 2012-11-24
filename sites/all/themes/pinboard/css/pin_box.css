@@ -1,0 +1,215 @@
+/* PIN_BOX CSS */
+
+.pin_box {
+    float:left;
+    width:222px;
+    padding:0 0 9px 0;
+    margin: 5px;
+    background: url(img/pin_box_bot_shadow.png) bottom no-repeat;
+overflow: hidden;
+}
+
+.pin_box_in {
+    background: #fff ;
+    padding:15px 0px 0;
+    border:solid 1px #999;
+}
+
+/*ACTIONS*/
+.pin_box .actions {
+    z-index: 2;
+    visibility: hidden;
+    position: absolute;
+    top:0; left: 0;
+    width: 222px;
+    height: 50px;
+    background: url(img/bagr_gray_alpha_1.png);
+}
+
+.pin_box:hover .actions, .pin_box .actions:hover{
+    visibility: visible;
+}
+
+
+.pin_box .actions a {
+    display: block;
+    float: left;
+    margin: 10px 0 0 8px;
+    padding: 5px 0 5px 22px;
+}
+
+.pin_box .actions a:hover {
+    opacity:0.5;
+}
+
+.pin_box .actions a strong {
+    text-decoration: none;
+    font-weight: normal;
+    color: #fff;
+}
+
+.pin_box .actions a.repin_link {
+    background: url(img/icon_repin.png) center left no-repeat;
+}
+.pin_box .actions a.like_link {
+    background: url(img/icon_like.png) center left no-repeat;
+}
+.pin_box .actions a.comment_link {
+    background: url(img/icon_comment.png) center left no-repeat;
+}
+
+.pin_box .actions .rate-thumbs-up-btn-up, .pin_box .actions .like-thumbs-up-btn-up {
+  display: inline-block;
+  /*width: 24px;*/
+  /*height: 24px;*/
+  background: url(img/icon_like.png) center left no-repeat;
+  text-indent: 0px;
+}
+.pin_box .actions .rate-info, .pin_box .actions .like-info {
+	display: none;
+	visibility: hidden;
+}
+.pin_box .actions a.rate-thumbs-up-btn-up, .pin_box .actions a.like-thumbs-up-btn-up {
+    text-decoration: none;
+    color: #fff;
+}
+
+/*PIN_IMAGE*/
+
+.pin_image {
+    /*padding: 0 15px 5px 15px;*/
+    /*margin: 0 auto 0 auto;*/
+    text-align: center;
+}
+
+.pin_image img {
+    /*padding: 0 15px 5px 15px;*/
+    margin: 0 auto 0 auto;
+}
+
+.pin_image .video {
+  display: block;
+  position: absolute;
+  background: url(../img/VideoIndicator.png) center center no-repeat;
+  z-index: 0;
+  width: 192px;
+  height: 144px;
+  left: 15px;
+}
+/*
+.pin_image .field-name-field-embed a {
+  position: absolute;
+  z-index: 10;
+  width: 192px;
+  height: 144px;
+  left: 15px;
+}
+*/
+/*PIN AVATARS SIZE*/
+
+.pin_box .info_box img, .pin_box .user-picture img {
+    width: 30px;
+    height: 30px;
+    float: left;
+}
+
+/*DESCRIPTION*/
+
+.description {
+    padding: 5px 15px 5px 15px;
+    font-size: 13px;
+	margin-bottom: 5px;
+}
+.description p,
+.description .field-name-body div,
+.description .field-name-body,
+.description .field-name-body .field-items, 
+.description .field-name-body .field-item 
+{
+    padding: 0;
+    margin: 0;
+}
+
+/*STATS*/
+
+.stats {
+    font-size: 9pt;
+    color: #666;
+    padding: 5px 0 5px 15px;
+}
+
+/*INFO_BOX & COMMENTS */
+
+.info_box, .comment_box {
+    background: url(img/info_box_shadow_h21.png) center 1px  repeat-x;
+    padding: 10px 15px 10px 15px;
+    border-top: 1px solid #999;
+    clear:both;
+    overflow:hidden;
+    font-size: 9pt;
+}
+
+.info_box img, .comment_box img {
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+.comment_box a, .info_box a {
+    margin: 0 0px 0 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-weight: bold;
+}
+.comment_box a:hover, .info_box a:hover {
+    border-bottom: 1px solid #ccc;
+}
+.comment_box .user-picture a, .info_box .user-picture a {
+    margin: 0;
+    padding-left: 0px;
+    padding-right: 0px;
+    border: none;
+}
+.comment_box .user-picture a:hover, .info_box .user-picture a:hover {
+    border: none;
+}
+/*WRITE_COMMENT*/
+
+.write_comment {
+    background: url(img/info_box_shadow_h21.png) center 1px repeat-x;
+    padding: 10px 0 5px 15px;
+    border-top: 1px solid #999;
+}
+
+.write_comment .image_link {
+    float: left;
+    margin: 0 10px 0 0;
+}
+
+.write_comment textarea {
+    width: 180px;
+    min-height: 30px;
+    margin: 0 0 10px;
+}
+
+.write_comment .button{
+    float: right;
+    margin: 0 15px 10px 0;
+}
+.pin_box .price {
+    position: absolute;
+    z-index: 1;
+    top: 19px;
+    left: -28px;
+    width: 125px;
+    height: 22px;
+    padding-top: 1px;
+    text-align: center;
+    font-size: 12px;
+    color: #524d4d;
+    background-color: #f2f0f0;
+    overflow: hidden;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform:  rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+}

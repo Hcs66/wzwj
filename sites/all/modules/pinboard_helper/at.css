@@ -1,0 +1,32 @@
+
+.at-term-list {
+  padding: 5px 0;
+}
+
+.at-term {
+  background-color:#eee;
+  padding:2px 4px 2px 4px;
+  display:inline;
+  margin:2px;
+  cursor:pointer;
+}
+.at-termmy {
+  background-color:#eee;
+  padding:2px 4px 2px 4px;
+  display:inline;
+  margin:2px;
+}
+
+.at-term-action-remove {
+  color:red;
+  padding-left:5px;
+}
+
+.at-term-entry {
+  width: 300px;
+  float: left;
+}
+
+.at-add-btn {
+  margin: 0 0 20px 10px;
+}

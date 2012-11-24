@@ -1,0 +1,73 @@
+
+.close_icon {
+    left: 20px;
+}
+
+
+.author_box {
+    text-align: right;
+}
+
+.author_box .image_link {
+    float: right;
+    margin: 0 0 0 10px;
+}
+
+.author_box img {
+    float: right;
+    margin: 0 0 0 10px;
+}
+
+.form-submit {
+    margin: 10px 10px 10px 0;
+}
+.at-add-btn.form-submit {
+  margin: 0 0 0 10px;
+}
+
+.zoom_info ul.b_thumbs li {
+    float: right;
+    margin: 0 0 0 1px;
+}
+.zoom_info {
+  text-align: right;
+}
+.pinned_by_box {
+    float: right;
+    padding: 20px 30px 10px 24px;
+    border-left: solid 1px #999;
+}
+
+.pinned_via_box {
+    float: right;
+    padding: 20px 25px 10px 30px;
+    border-left: none;
+}
+
+
+.field-type-taxonomy-term-reference .field-items, 
+.field-type-taxonomy-term-reference .field-item 
+{
+float: right;
+margin: 0 0 0 10px;
+}
+.p_zoom_cont .rate-widget a.rate-button {
+padding-right: 25px;
+background-position: top right;
+}
+.p_zoom_cont .price {
+    position: absolute;
+    z-index: 1;
+    top: 22px;
+    right: -34px;
+    width: 150px;
+    padding: 8px 0;
+    font-size: 14px;
+    text-align: center;
+    background-color: #ddd;
+    overflow: hidden;
+    -webkit-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+    -o-transform:rotate(45deg);
+    -ms-transform:rotate(45deg);
+}

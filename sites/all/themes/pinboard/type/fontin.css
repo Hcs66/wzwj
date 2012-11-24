@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'FontinSansRegular';
+    src: url('fontin/fontin_sans_r_45b-webfont.eot');
+    src: url('fontin/fontin_sans_r_45b-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fontin/fontin_sans_r_45b-webfont.woff') format('woff'),
+         url('fontin/fontin_sans_r_45b-webfont.ttf') format('truetype'),
+         url('fontin/fontin_sans_r_45b-webfont.svg#FontinSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body {
+	font-family: 'FontinSansRegular';
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'FontinSansRegular';
+	font-weight: normal;
+}

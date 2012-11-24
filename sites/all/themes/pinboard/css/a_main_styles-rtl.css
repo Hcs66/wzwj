@@ -1,0 +1,166 @@
+
+
+
+/*SCROLL_TOP*/
+.scroll_top {
+    position: fixed;
+    bottom: 0px; left: 15px;
+    width: 120px; height: 60px;
+    background: url(img/bagr_gray_alpha_1.png);
+    display: none;
+    text-decoration: none;
+}
+
+.scroll_top {
+    padding: 10px 28px 0 0;
+}
+
+
+#infscr-loading {
+    position: fixed;
+    bottom: 10px; right: 50%;
+    width: 70px; height: 70px;
+    margin-left: -35px;
+    z-index: 100;
+}
+
+
+/*PIN IT BOTTON*/
+
+#PinItButtonContainer #ButtonHolder{
+    margin: 30px 0 45px 0;
+    padding: 10px;
+    position: relative;
+    background: #E5E5E5;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;    
+}
+
+#PinItButtonContainer #ButtonHolder a {
+    display: block;
+    text-align: center;
+    padding: 12px 0 0 0;
+    width: 200px; height: 38px;
+    font-size: 24px;
+    
+    background:url(img/pin_it_botton.png) top center no-repeat;
+    
+}
+
+#PinItButtonContainer #ButtonInstructions{
+    position: absolute;
+    top: 23px; left: 30px;
+    font-size: 16px;
+    
+    
+}
+
+#PinItButtonContainer #InstallationInstructions{
+    
+    margin: 20px 0 70px 0;
+}
+
+#PinItButtonContainer #InstallationInstructions ol { 
+    margin-right: 70px;
+}
+
+.PinButtonB a {
+    float: right;
+}
+
+.nodeall .user-picture {
+	float: right;
+  margin: 0px 0px 0px 10px;
+}
+.nodeall .submitted{
+  margin: 4px 0px 4px 10px;
+  color: #999;
+  font-style: italic;
+}
+
+#autocomplete {
+background-color: #fff;
+}
+#autocomplete ul {
+margin: 0;
+padding: 0;
+}
+#autocomplete ul li {
+margin: 0;
+padding: 5px;
+}
+
+.node-pin-form input.form-file {
+		border: 1px solid #ccc;
+		padding: 6px 4px;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+		color: #777;
+		background: #fff;
+}
+
+.node-pin-form input[type="text"],
+#pinboard-helper-form-board-edit input[type="text"]
+{
+  width: 85%;
+}
+
+.node-pin-form .filter-wrapper/*,
+.node-pin-form .description*/
+{
+visibility: hidden;
+display: none;
+}
+.form-item {
+padding-bottom: 15px;
+}
+.form-item input {
+margin: 0;
+}
+.form-item .description {
+
+}
+table td, table th {
+padding: 5px;
+}
+
+#main {
+padding-bottom: 20px;
+}
+#pinboard-helper-notifications select {
+width: auto;
+}
+
+#pin-flags .form-type-select {
+float: right;
+}
+
+#pin-flags { 
+text-align: right;
+}
+
+#pin-flags legend { 
+float: left;
+margin: 0 10px 5px 0;
+}
+
+#pin-flags legend img { 
+margin: 0 5px 0 2px;
+vertical-align: middle;
+}
+#pin-flags select { 
+width: auto;
+margin-bottom: 0;
+}
+#pin-flags input { 
+width: auto;
+margin-top: 0;
+}
+ul.tabs {
+margin-right: 10px;
+}
+ul.tabs li {
+float: right;
+}

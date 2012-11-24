@@ -1,0 +1,65 @@
+/*A_BLOCK*/
+
+#sidebar-second div.block, #sidebar-first div.block {
+    background: white;
+    border:solid 1px #999;
+    margin: 10px 0 10px 0;
+    font-size: 12px;
+}
+
+
+#sidebar-second div.block p, #sidebar-first div.block p{
+   margin: 5px 10px;
+   
+}
+
+#sidebar-second div.block h2, #sidebar-first div.block h2{
+    display: block;
+    background: url(img/info_box_shadow_h21.png) center 1px  repeat-x;
+    border-bottom: 1px solid #999;
+    padding: 0px 10px 0px 10px;
+    font-size: 14px;
+    font-weight: bold; 
+}
+
+#sidebar-second div.block .content {
+   padding: 5px 10px 5px 10px;
+   
+}
+#sidebar-second div.system-menu {
+    background: none;
+    border:none;
+    margin: 10px 0 10px 0;
+    font-size: 12px;
+}
+#sidebar-second div.system-menu h2 {
+    display: block;
+    background: url(none);
+    border-bottom: none;
+    padding: 0px 10px 0px 10px;
+    font-size: 14px;
+    font-weight: bold; 
+}
+
+#sidebar-second div.block ul li {
+    list-style: none;
+    padding: 0 0 4px 0;
+    margin: 0 0 0px 10px;
+}
+
+
+/*LOGIN BAR BLOK*/
+
+#block-user-login  input#edit-name, #block-user-login  input#edit-pass{
+    width: 160px;
+    
+}
+
+#sidebar-second #block-user-login .item-list ul li{
+    margin: 0;
+}
+
+#sidebar-second #block-user-login .content {
+   padding: 5px 10px 0px 20px;
+   
+}
