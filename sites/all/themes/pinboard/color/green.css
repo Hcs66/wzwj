@@ -1,7 +1,303 @@
-a, a:visited { color: #009900; }
-a:hover, a:focus { color: #00cc00; }
-#top_menu_subj_bar ul.menu li a.active-trail,
-#top_menu_bar ul.menu li a.active-trail,
-#top_menu_subj_bar ul.menu li a.active,
-#top_menu_bar ul.menu li a.active
-{ color: #000; }
+body {
+	color: rgb(51, 51, 51); background-image: url("../img/bg1.png");
+}
+a {
+	color: rgb(51, 102, 153);
+}
+a:hover {
+	color: rgb(51, 51, 51);
+}
+h1 {
+	color: rgb(51, 51, 51);
+}
+h2 {
+	color: rgb(51, 51, 51);
+}
+h3 {
+	color: rgb(51, 51, 51);
+}
+h4 {
+	color: rgb(51, 51, 51);
+}
+h5 {
+	color: rgb(51, 51, 51);
+}
+h6 {
+	color: rgb(51, 51, 51);
+}
+h1 {
+	color: rgb(102, 153, 0);
+}
+.header {
+	background-image: url("../img/bg-header.png");
+}
+.header .top {
+	background-image: url("../img/bg-top-g.png");
+}
+.header .top ul.menu li a {
+	color: rgb(255, 255, 255); text-shadow: 1px 1px 1px #8a8a8a;
+}
+.header .top ul.menu li a:hover {
+	text-shadow: 1px 1px 1px #8a8a8a; background-color: rgb(42, 87, 0);
+}
+.header .nav {
+	background-image: url("../img/bg-nav-g.png");
+}
+.header .nav .or {
+	color: rgb(153, 153, 153);
+}
+.header .nav .center a {
+	border: 1px solid rgb(204, 0, 0); color: rgb(255, 255, 255); text-shadow: 1px 1px 1px #8a8a8a; background-image: url("../img/button-bg-r.png");
+}
+.header .nav ul.menu li a {
+	color: rgb(51, 51, 51);
+}
+.header .nav ul.menu li a:hover {
+	color: rgb(102, 102, 102);
+}
+.header .nav ul.menu .expanded a {
+	background-image: url("../img/menu-b.png");
+}
+.header .nav ul.menu li ul.menu {
+	border: 1px solid rgb(204, 204, 200); background-color: rgb(255, 255, 255);
+}
+.header .nav ul.menu ul.menu li a {
+	color: rgb(0, 102, 153);
+}
+.header .nav ul.menu ul.menu li a:hover {
+	color: rgb(51, 51, 51);
+}
+.header .nav .search {
+	background-image: url("../img/search-h-bg-g.png");
+}
+.footer {
+	background-image: url("../img/bg-footer.png");
+}
+.signup-block {
+	border: 1px solid rgb(227, 227, 220); color: rgb(102, 102, 102); background-color: rgb(250, 250, 247);
+}
+.signup-block a {
+	color: rgb(255, 255, 255); text-shadow: 1px 1px 1px #2786ad; background-image: url("../img/button-bg-b.png");
+}
+.pin_box {
+	background-color: rgb(250, 250, 247);
+}
+.board_box {
+	background-color: rgb(250, 250, 247);
+}
+.pin_box .inbox {
+	border-color: rgb(232, 232, 227);
+}
+.pin_box .inbox:hover {
+	border-color: rgb(203, 203, 199);
+}
+.pin_box .stat span {
+	color: rgb(153, 153, 153);
+}
+.pin_box .stat span a {
+	color: rgb(153, 153, 153);
+}
+.pin_box .stat span a:hover {
+	color: rgb(0, 0, 0);
+}
+.pin_box .user {
+	color: rgb(102, 102, 102); border-right-color: rgb(232, 232, 227); border-bottom-color: rgb(232, 232, 227); border-left-color: rgb(232, 232, 227);
+}
+.pin_box .comment {
+	color: rgb(102, 102, 102); border-right-color: rgb(232, 232, 227); border-bottom-color: rgb(232, 232, 227); border-left-color: rgb(232, 232, 227);
+}
+.pin_box .user a {
+	color: rgb(102, 102, 102);
+}
+.pin_box .comment a {
+	color: rgb(102, 102, 102);
+}
+.pin_box .user a:hover {
+	color: rgb(0, 0, 0);
+}
+.pin_box .comment a:hover {
+	color: rgb(0, 0, 0);
+}
+.pin_box .action {
+	background-image: url("../img/bg-pin-action.png");
+}
+.pin_box .action a {
+	color: rgb(218, 218, 218); background-image: url("../img/action-repin.png");
+}
+.pin_box .action a:hover {
+	color: rgb(255, 255, 255);
+}
+.pin_box .action a.repin {
+	background-image: url("../img/action-repin.png");
+}
+.pin_box .action a.like {
+	background-image: url("../img/action-like.png");
+}
+.pin_box .action a.comment {
+	background-image: url("../img/action-comment.png");
+}
+.top-profile-block .left a {
+	border: 1px solid rgb(233, 233, 229); background-color: rgb(255, 255, 255);
+}
+.top-profile-block .left a:hover {
+	border-color: rgb(204, 204, 201);
+}
+.top-profile-block .center {
+	color: rgb(102, 102, 102);
+}
+.top-profile-block .right .twitter-block {
+	border: 1px solid rgb(233, 233, 230); background-color: rgb(250, 250, 247);
+}
+.tweet_list li {
+	color: rgb(153, 153, 153);
+}
+.tweet_list li a {
+	color: rgb(51, 102, 153);
+}
+.twitter-block h6 {
+	color: rgb(51, 102, 153);
+}
+.top-profile-block h1 {
+	color: rgb(51, 51, 51);
+}
+.top-profile-block .stat a {
+	color: rgb(51, 102, 153);
+}
+.actions a {
+	color: rgb(255, 255, 255); background-image: url("../img/button-bg-pr-p.png");
+}
+.actions a:hover {
+	background-image: url("../img/button-bg-pr-a.png");
+}
+.board_box {
+	background-image: url("../img/bg-board-bottom.png");
+}
+.board_box a.boards {
+	border: 1px solid rgb(233, 233, 229); background-color: rgb(250, 250, 247);
+}
+.board_box a.boards:hover {
+	border: 1px solid rgb(204, 204, 200);
+}
+.board_box .title {
+	color: rgb(51, 51, 51);
+}
+.board_box .board-links {
+	border-right-color: rgb(232, 232, 227); border-bottom-color: rgb(232, 232, 227); border-left-color: rgb(232, 232, 227); background-color: rgb(250, 250, 247);
+}
+.board_box .board-links a {
+	color: rgb(51, 102, 153);
+}
+.board_box .board-links a:hover {
+	color: rgb(0, 0, 0);
+}
+.pin-node .stat a {
+	color: rgb(153, 153, 153);
+}
+.pin-node .stat a:hover {
+	color: rgb(51, 51, 51);
+}
+.pin-image {
+	border: 1px solid rgb(233, 233, 229); background-color: rgb(244, 244, 240);
+}
+.pin-des {
+	border-right-color: rgb(233, 233, 229); border-bottom-color: rgb(233, 233, 229); border-left-color: rgb(233, 233, 229); background-color: rgb(243, 243, 239);
+}
+.pin-node .field-type-taxonomy-term-reference div.field-item a {
+	background-color: rgb(222, 227, 228);
+}
+.pin-node .actions a {
+	background-image: url("../img/button-bg-prb-p.png");
+}
+.pin-node .actions a:hover {
+	background-image: url("../img/button-bg-prb-a.png");
+}
+.comments {
+	border: 1px solid rgb(233, 233, 228); background-color: rgb(244, 244, 240);
+}
+.comments h6 {
+	color: rgb(51, 51, 51); border-bottom-color: rgb(223, 229, 230);
+}
+.comments .comment {
+	border-bottom-color: rgb(225, 230, 232);
+}
+.comments .commentform input[type='submit'] {
+	color: rgb(255, 255, 255); background-image: url("../img/button-bg-prb-p.png");
+}
+.comments .commentform input[type='submit']:hover {
+	background-image: url("../img/button-bg-prb-a.png");
+}
+.comments .commentform textarea {
+	border: 1px solid rgb(209, 209, 207); background-color: rgb(245, 245, 241);
+}
+.node_pin_page .right .inn {
+	border: 1px solid rgb(234, 234, 230); background-color: rgb(250, 250, 247);
+}
+.pin-block-category h5 {
+	color: rgb(51, 51, 51);
+}
+.pin-block-originally h5 {
+	color: rgb(51, 51, 51);
+}
+.pin-block-board h5 {
+	color: rgb(51, 51, 51);
+}
+.pin-block-category h4 {
+	color: rgb(51, 102, 153);
+}
+.pin-block-originally h4 {
+	color: rgb(51, 102, 153);
+}
+.pin-block-board h4 {
+	color: rgb(51, 102, 153);
+}
+.block-right h6 {
+	color: rgb(51, 102, 153);
+}
+.block-right .con {
+	color: rgb(153, 153, 153);
+}
+.blog {
+	border: 1px solid rgb(201, 201, 197); color: rgb(102, 102, 102); background-color: rgb(255, 255, 255);
+}
+.blog .info {
+	color: rgb(153, 153, 153);
+}
+.blog .act .links li a {
+	color: rgb(255, 255, 255); background-image: url("../img/button-bg-prb-p.png");
+}
+.blog .act .links li a:hover {
+	background-image: url("../img/button-bg-prb-a.png");
+}
+.node_pin_page h1.title {
+	color: rgb(51, 51, 51);
+}
+.blog .block {
+	color: rgb(153, 153, 153);
+}
+.blog .left.block {
+	border-right-color: rgb(214, 224, 235);
+}
+.blog .right.block {
+	border-left-color: rgb(214, 224, 235);
+}
+.blog .comments {
+	background-color: rgb(255, 255, 255);
+}
+.blog .comments .commentform textarea {
+	background-color: rgb(254, 254, 253);
+}
+@media only screen and (max-width:767px) and (min-width:480px)
+{
+.header .nav {
+	background-image: none; background-color: rgb(238, 238, 238);
+}
+}
+@media only screen and (max-width:479px)
+{
+.header .top {
+	background-image: none; background-color: rgb(124, 174, 23);
+}
+.header .nav {
+	background-image: none; background-color: rgb(238, 238, 238);
+}
+}

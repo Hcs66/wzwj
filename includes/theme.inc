@@ -2362,6 +2362,11 @@ function template_preprocess_html(&$variables) {
     $variables['classes_array'][] = drupal_html_class('node-type-' . $node->type);
   }
 
+  //判断ovr参数
+  if(!empty($_GET['ovr']) and $_GET['ovr']=='1'){
+    $variables['classes_array'][] = 'ovr';
+  }
+
   // RDFa allows annotation of XHTML pages with RDF data, while GRDDL provides
   // mechanisms for extraction of this RDF content via XSLT transformation
   // using an associated GRDDL profile.

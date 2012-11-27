@@ -14,6 +14,7 @@ settings[tm_value_5] = 1
 
 dependencies[] = pinboard_helper
 
+regions[header] = Header
 regions[sidebar_top_left] = Sidebar Top Left
 regions[sidebar_top_right] = Sidebar Top Right
 regions[sidebar_top_menu] = Sidebar Top Menu
@@ -22,6 +23,7 @@ regions[sidebar_welcome] = Sidebar Welcome
 regions[content] = Content
 regions[sidebar_ad] = Sidebar Ad
 regions[sidebar_right] = Sidebar Right
+
 
 regions[footer_one] = Footer One
 regions[footer_two] = Footer Two

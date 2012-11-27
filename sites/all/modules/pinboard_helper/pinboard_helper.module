@@ -3405,7 +3405,7 @@ function pinboard_helper_originally_pinned($node) {
       if (isset($v2['field_embed'][0]['#suffix'])) $v2['field_embed'][0]['#suffix'] = '';
       $out1 = render($v2['field_embed']);
     }
-    $out .= $out1 ? '<li>'.$out1.'</li>' : ''; 
+    $out .= $out1 ? '<div>'.$out1.'</div>' : ''; 
   }
   return $out;
 }
@@ -3435,7 +3435,7 @@ function pinboard_helper_pinned_onto_board($node) {
       if (isset($v2['field_embed'][0]['#suffix'])) $v2['field_embed'][0]['#suffix'] = '';
       $out1 = render($v2['field_embed']);
     }
-    $out .= $out1 ? '<li>'.$out1.'</li>' : ''; 
+    $out .= $out1 ? '<div>'.$out1.'</div>' : ''; 
   }
   return $out;
 }

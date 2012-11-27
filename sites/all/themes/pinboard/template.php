@@ -9,18 +9,18 @@ drupal_add_js('misc/collapse.js');
 drupal_add_js('
 jQuery(document).ready(function($) {
 	// Twitter
-	$(\'.widget-twitter\').each(function() {
-		$(\'> .tweets\', this).tweet({
-			username: $(this).data(\'username\'),
-			count:    $(this).data(\'count\'),
-			retweets: $(this).data(\'retweets\'),
+	jQuery(\'.widget-twitter\').each(function() {
+		jQuery(\'> .tweets\', this).tweet({
+			username: jQuery(this).data(\'username\'),
+			count:    jQuery(this).data(\'count\'),
+			retweets: jQuery(this).data(\'retweets\'),
 			template: \'{tweet_text}<br /><small><a href="{tweet_url}">{tweet_relative_time}</a></small>\'
 		});
 	});
 	
 	// Media types
-	$(window).resize(function() {
-		windowWidth = $(window).width();
+	jQuery(window).resize(function() {
+		windowWidth = jQuery(window).width();
 		lteTablet = windowWidth < 980;
 		lteMobile = windowWidth < 767;
 		lteMini   = windowWidth < 479;
@@ -31,13 +31,33 @@ jQuery(document).ready(function($) {
 		mobile    = lteMobile && gteMobile;
 	}).trigger(\'resize\');
 	
+
+	  jQuery(\'.nav .menu li.expanded\').mouseover(function() {
+		if (!jQuery(this).hasClass(\'active\') && !(tablet || mobile)) {
+			jQuery(\'.nav .menu li.expanded\').removeClass(\'active\');
+			jQuery(this).addClass(\'active\');
+			jQuery(\'.nav .menu li.expanded\').find(\'ul.menu\').fadeOut();
+			var activeTab = jQuery(this).find(\'ul.menu\');
+			jQuery(activeTab).fadeIn();
+		  return false;
+		}
+	});
+	jQuery(\'.nav .menu li\').mouseleave(function() {
+		if (jQuery(this).hasClass(\'active\') && !(tablet || mobile)) {
+			jQuery(\'.nav .menu li.expanded\').removeClass(\'active\');
+			jQuery(\'.nav .menu li.expanded\').find(\'ul.menu\').fadeOut();
+		  return false;
+		}
+	});
+  
 	// Navigation main
-	$(\'ul.menu li:has(ul)\').click(function(e) {
-	'.($language->direction ? 'if (lteMobile && e.pageX - $(this).offset().left <= 45) {' : 'if (lteMobile && e.pageX - $(this).offset().left >= $(this).width() - 45) {').'
-			$(\'> ul\', this).slideToggle(300);
+	jQuery(\'.nav .menu li.expanded:has(ul)\').click(function(e) {
+	if ((tablet || mobile) && e.pageX - jQuery(this).offset().left >= jQuery(this).width() - 45) {
+			jQuery(\'> ul\', this).slideToggle(300);
 			return false;
 		}
 	});
+
 	
 });
 
@@ -178,8 +198,8 @@ function checkHash() {
   //alert (hash);
   if (oldurlpin != hash) {
     (function ($) {
-      $(\'.overlay\').remove();
-      $("body").removeClass(\'no_scroll\');
+      jQuery(\'.overlay\').remove();
+      jQuery("body").removeClass(\'no_scroll\');
       oldurlpin = \'\';
     })(jQuery);
   //alert (\'1\');
@@ -187,6 +207,16 @@ function checkHash() {
     setTimeout("checkHash()",100);
   }
 }
+
+function frameFitting() {
+    if (document.getElementById(\'pin_iframe\') && document.getElementById(\'pin_iframe\').contentWindow.document.body) {
+      var h = 100;
+      if (BrowserDetect.browser == \'Safari\' || BrowserDetect.browser == \'Chrome\') h = 0;
+      document.getElementById(\'pin_iframe\').height = document.getElementById(\'pin_iframe\').contentWindow.document.body.scrollHeight+h+\'px\'; 
+    }
+    setTimeout("frameFitting()",500);
+}
+
             
 (function ($) {
 
@@ -195,109 +225,41 @@ function checkHash() {
 if (checkBrowser()) {
 //SCROLL TOP
 
-$(window).scroll(function() {
-    if ($(this).scrollTop()) {
-        $(\'.scroll_top\').stop(true, true).fadeIn();
+jQuery(window).scroll(function() {
+    if (jQuery(this).scrollTop()) {
+        jQuery(\'.scroll_top\').stop(true, true).fadeIn();
     } else {
-        $(\'.scroll_top\').stop(true, true).fadeOut();
+        jQuery(\'.scroll_top\').stop(true, true).fadeOut();
     }
 });
 }
 
-$(document).ready(function(){
+jQuery(document).ready(function(){
 //PIN IMAGE CLICK
 
-    function pin_image_click(a){      
+    function pin_image_click(a){
+    
       hash=window.location.pathname;
       if (oldurlpin != hash) {
-        var html_to_prepend = \'<div class="overlay"><div class="close_icon"></div><div class="pin_container"></div></div>\';
-        //var html_to_prepend = \'<div class="overlay"><div class="pin_container"></div></div>\';
-        $("body").prepend(html_to_prepend);
+        var atr_link = jQuery(this).attr(\'href\');
+        var html_to_prepend = \'<div class="overlay"><div class="pin_container"><div class="close_icon"></div><iframe id="pin_iframe" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div></div>\';
+        jQuery(\'body\').prepend(html_to_prepend);
+        if (strpos(\'?\',atr_link) > 1) {atr_linkk = atr_link + \'&ovr=1\'} else {atr_linkk = atr_link + \'?ovr=1\'}
+        var miframe = document.getElementById(\'pin_iframe\');
+        miframe.src = atr_linkk; 
         
-        var atr_link = $(this).attr("href");
-        //$(".overlay .pin_container").load(atr_link+\' \'+\'head\');        
-        $(".overlay .pin_container").load(atr_link+\' \'+\'.p_zoom_cont\',\'\',function(){
-          $(\'.rate-widget\').each(function () {
-            var widget = $(this);
-            var ids = widget.attr(\'id\').match(/^rate\-([a-z]+)\-([0-9]+)\-([0-9]+)\-([0-9])$/);
-            var data = {
-              content_type: ids[1],
-              content_id: ids[2],
-              widget_id: ids[3],
-              widget_mode: ids[4]
-            };
-            $(\'a.rate-button\', widget).click(function() {
-              var token = this.getAttribute(\'href\').match(/rate\=([a-zA-Z0-9\-_]{32,64})/)[1];
-              return Drupal.rateVote(widget, data, token);
-        	  });
-          });
-          $(".description").append(\'<script type="text/javascript">var switchTo5x=1;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">stLight.options({publisher:"dr-875cc99-a64a-f3fe-fd1c-e7761d43783e"});</script>\');
-          
-         
-    $(\'fieldset.collapsible\').once(\'collapse\', function () {
-      var $fieldset = $(this);
-      // Expand fieldset if there are errors inside, or if it contains an
-      // element that is targeted by the uri fragment identifier. 
-      var anchor = location.hash && location.hash != \'#\' ? \', \' + location.hash : \'\';
-      if ($(\'.error\' + anchor, $fieldset).length) {
-        $fieldset.removeClass(\'collapsed\');
-      }
-
-      var summary = $(\'<span class="summary"></span>\');
-      $fieldset.
-        bind(\'summaryUpdated\', function () {
-          var text = $.trim($fieldset.drupalGetSummary());
-          summary.html(text ? \' (\' + text + \')\' : \'\');
-        })
-        .trigger(\'summaryUpdated\');
-
-      // Turn the legend into a clickable link, but retain span.fieldset-legend
-      // for CSS positioning.
-      var $legend = $(\'> legend .fieldset-legend\', this);
-
-      $(\'<span class="fieldset-legend-prefix element-invisible"></span>\')
-        .append($fieldset.hasClass(\'collapsed\') ? Drupal.t(\'Show\') : Drupal.t(\'Hide\'))
-        .prependTo($legend)
-        .after(\' \');
-
-      // .wrapInner() does not retain bound events.
-      var $link = $(\'<a class="fieldset-title" href="#"></a>\')
-        .prepend($legend.contents())
-        .appendTo($legend)
-        .click(function () {
-          var fieldset = $fieldset.get(0);
-          // Don\'t animate multiple times.
-          if (!fieldset.animating) {
-            fieldset.animating = true;
-            Drupal.toggleFieldset(fieldset);
-          }
-          return false;
-        });
-
-      $legend.append(summary);
-    });
-  
-
-        });
-      
-                 
-
-        $("body").addClass(\'no_scroll\'); //body no scrolling
+        jQuery(\'body\').addClass(\'no_scroll\'); //body no scrolling
         history.pushState(null,null,window.location.protocol + \'//\' + window.location.hostname + atr_link);
         oldurlpin=window.location.pathname;
-      	setTimeout("checkHash()",500);
-      	/*
-      	$(\'body\').click(function(event) {
-      	if (!$(event.target).closest(\'.p_zoom_in\').length) {
-        	history.back();
-      	};
-    		});
-    		*/
+        setTimeout(\'checkHash()\',500);
+        setTimeout(\'frameFitting()\',1000);
       }
+      
       return false;                  
     }
 
-    var $container = $(\'.pin_page #content .content:has(.pin_box)\');
+
+    var $container = jQuery(\'.pin_page:has(.pin_box)\');
     $container.imagesLoaded(function(){
       $container.masonry({
         itemSelector: \'.pin_box\',
@@ -310,8 +272,10 @@ $(document).ready(function(){
       nextSelector : \'ul.pager .pager-next a\',  // selector for the NEXT link (to page 2)
       itemSelector : \'.pin_box\',     // selector for all items you\'ll retrieve
       loading: {
-          finishedMsg: \''.t('No more pins to load.').'\',
-          img: \'http://i.imgur.com/6RMhx.gif\'
+          finishedMsg: \''.t('暂时没有更多信息了.').'\',
+          img: \'http://5jiang5zhi.com/sites/all/themes/pinboard/img/load.gif\',
+          msgText:\'正在努力加载内容\',
+          finishedMsg:\'加载完成\'
         }
       }
       ,
@@ -319,7 +283,7 @@ $(document).ready(function(){
       
       function( newElements ) {
         // hide new items while they are loading
-        var $newElems = $( newElements ).css({ opacity: 0 });
+        var $newElems = jQuery( newElements ).css({ opacity: 0 });
         // ensure that images load before adding to masonry layout
         $newElems.imagesLoaded(function(){
           // show elems now they\'re ready
@@ -327,10 +291,16 @@ $(document).ready(function(){
           $newElems.addClass(\'second_\'+a_second);
           $newElems.animate({ opacity: 1 });
           $container.masonry( \'appended\', $newElems, true );
-          if (checkBrowser()) $(\'.second_\'+a_second+\' .pin_image a\').click(pin_image_click);
+          if (checkBrowser()) {
+            jQuery(\'.second_\'+a_second+\' .pin_image a\').click(pin_image_click);
+            jQuery(\'.pin_box .photo .field a\').click(pin_image_click); 
+            jQuery(\'.pin_box .photo a.video\').click(pin_image_click); 
+            jQuery(\'.pin_box .action a.action-pin\').click(pin_image_click); 
+          }
+
           
-          $(\'.like-widget:not(.like-processed)\').addClass(\'like-processed\').each(function () {
-            var widget = $(this);
+          jQuery(\'.like-widget:not(.like-processed)\').addClass(\'like-processed\').each(function () {
+            var widget = jQuery(this);
             var ids = widget.attr(\'id\').match(/^like\-([a-z]+)\-([0-9]+)\-([0-9]+)\-([0-9])$/);
             var data = {
               content_type: ids[1],
@@ -339,20 +309,40 @@ $(document).ready(function(){
               widget_mode: ids[4]
             };
 
-            $(\'a.like-button\', widget).click(function() {
+            jQuery(\'a.like-button\', widget).click(function() {
               var token = this.getAttribute(\'href\').match(/like\=([a-zA-Z0-9\-_]{32,64})/)[1];
               return Drupal.likeVote(widget, data, token);
             });
           });
+
+          jQuery(\'.pin_box .inbox\').mouseover(function() {
+            if (!jQuery(this).hasClass(\'active\')) {
+              jQuery(\'.pin_box .inbox\').removeClass(\'active\');
+              jQuery(this).addClass(\'active\');
+              jQuery(\'.pin_box .inbox .action\').fadeOut();
+              var activeTab = jQuery(this).find(\'.action\');
+              jQuery(activeTab).fadeIn();
+              return false;
+            }
+          });
+
+          jQuery(\'.pin_box .inbox\').mouseleave(function() {
+            if (jQuery(this).hasClass(\'active\')) {
+              jQuery(\'.pin_box .inbox\').removeClass(\'active\');
+              jQuery(\'.pin_box .inbox .action\').fadeOut();
+              return false;
+            }
+          });
+
       
         });
       }
     );
  
     if (checkBrowser()){ 
-    	$(\'.pin_image a\').click(pin_image_click);
- 			$(\'body\').click(function(event) {
-      	if (!$(event.target).closest(\'.p_zoom_in\').length && $(\'.p_zoom_in\').length && $(\'.pin_image a\').length) {
+    	jQuery(\'.pin_image a\').click(pin_image_click);
+ 			jQuery(\'body\').click(function(event) {
+      	if (!jQuery(event.target).closest(\'.p_zoom_in\').length && jQuery(\'.p_zoom_in\').length && jQuery(\'.pin_image a\').length) {
         	history.back();
       	};
     	});
@@ -362,7 +352,7 @@ $(document).ready(function(){
  
 })(jQuery);
 
-', array('type' => 'inline',  'scope' => 'footer', 'weight' => 5));
+', array('type' => 'inline',  'scope' => 'footer', 'weight' => 1));
 
 function pinboard_get_comments($pid, $node) {
 	$out = '';
