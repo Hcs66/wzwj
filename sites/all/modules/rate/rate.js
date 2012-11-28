@@ -23,7 +23,7 @@
     // Invoke JavaScript hook.
     $.event.trigger('eventBeforeRate', [data]);
 
-    $(".rate-info", widget).text(Drupal.t('Saving vote...'));
+    $(".rate-info", widget).text(Drupal.t('正在保存...'));
 
     // Random number to prevent caching, see http://drupal.org/node/1042216#comment-4046618
     var random = Math.floor(Math.random() * 99999);

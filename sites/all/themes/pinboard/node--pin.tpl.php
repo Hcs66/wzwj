@@ -9,7 +9,7 @@
         <?php print str_replace('rate','like',render($content['rate_like'])); ?>
         <?php if (isset($node->comment_count) and isset($node->comment) and $node->comment and !($node->comment == 1 and !$node->comment_count)) { ?><a class="comment" href="<?php print url("node/$node->nid", array('fragment' => 'comment-form')) ?>"><?php print t('Comment') ?></a><?php } ?>
       </div>
-      <?php print render($content['field_image']); ?><?php if ($field_embed = render($content['field_embed'])) print '<a href="'.$node_url.'" class="video"></a>'.$field_embed; ?>  
+      <?php print render($content['field_image']); ?>
     </div>
     
     <div class="cont">
@@ -39,7 +39,7 @@
           } else {
             $nname = db_select('users')->fields('users', array('name'))->condition('uid', $nuid, '=')->execute()->fetchCol();
             if (count($nname)) $nname = $nname[0]; else $nname = '';
-            print t('!username via !ousername onto !category', array('!username' => $name, '!ousername' => l($nname, 'user/'.$nuid), '!category' => l($bname, 'user/'.$buid[0].'/board/'.$bid))); 
+            print t('!username 通过 !ousername 加入 !category', array('!username' => $name, '!ousername' => l($nname, 'user/'.$nuid), '!category' => l($bname, 'user/'.$buid[0].'/board/'.$bid))); 
     }?>
         <?php } else { ?>
           <p><?php print $name; ?></p>
@@ -61,7 +61,7 @@
     <?php print $name; ?>
     <div class="actions" >
       <a href="<?php print url('repin/'.$node->nid); ?>">
-        <img width="20" height="20" src="http://www.themesnap.com/theme-demos/pinboard/sites/all/themes/pinboard2/img/button-repin.png">
+        <img width="20" height="20" src="<?php print '/'.$directory.'/img/button-repin.png' ?>">
       </a>
     </div>
     <div class="stat">
@@ -75,20 +75,24 @@
         $buid = db_select('pinboard_boards')->fields('pinboard_boards', array('uid'))->condition('bid', $bid, '=')->execute()->fetchCol();
         if (count($bname)) {
           $bname = $bname[0]; ?>
-          <div class="info"><?php print t('Pinned !data ago onto !board', array('!data' => format_interval(time() - $node->created), '!board' => l($bname, 'user/'.$buid[0].'/board/'.$bid))); ?></div>
+          <div class="info"><?php print t('!data 前添加到 !board', array('!data' => format_interval(time() - $node->created), '!board' => l($bname, 'user/'.$buid[0].'/board/'.$bid))); ?></div>
         <?php } else { ?>
-      <div class="info"><?php print t('Pinned !data ago', array('!data' => format_interval(time() - $node->created))); ?></div>
+      <div class="info"><?php print t('!data 前', array('!data' => format_interval(time() - $node->created))); ?></div>
     <?php } ?>
     <div class="pin-image">
-        <?php print render($content['field_image']); ?><?php if ($field_embed = render($content['field_embed'])) print '<a href="'.$node_url.'" class="video"></a>'.$field_embed; ?>  
+        <?php print render($content['field_image']); ?>
     </div>
     <div class="pin-des">
         <?php print render($content['body']); ?>
     </div>
+    <div class="clr"></div>
      <?php if ($url = strip_tags(render($content['field_url']))) { 
-        print '<div class="pinsource">'.t('Source: !link',array('!link' => '<a target="_blank" href="'.url($url).'">'.pinboard_truncate_utf8($url, 80, FALSE, TRUE).'</a>')).'</div>';
+        print '<div class="pinsource">'.t('来源: !link',array('!link' => '<a target="_blank" href="'.url($url).'">'.pinboard_truncate_utf8($url, 80, FALSE, TRUE).'</a>')).'</div>';
       } ?>
-    <div class="clr"/> 
+    <?php hide($content['comments']); hide($content['links']); print render($content); ?>
+    <div class="clr"></div>
+   
+    <div class="clr"></div> 
     <?php print render($content['comments']); ?>      
     <?php
       $view_name = 'pinned_onto_the_board';
@@ -102,7 +106,7 @@
             $viewargs = explode(',', $view->args[0]);
             if (empty($viewargs[0])) $viewargs[0] = 0;
             $viewurl = url('taxonomy/term/'.$viewargs[0]);
-            print '<h5>'.t('Pinned onto the category').'</h5><h4><a target="_blank" href="'.$viewurl.'">'.$output['subject'].'</a></h4>';
+            print '<h5>'.t('同分类信息').'</h5><h4><a target="_blank" href="'.$viewurl.'">'.$output['subject'].'</a></h4>';
             print str_replace('!taxonomy_term', $viewurl, $output['content']);
             print '</div>';
           }
@@ -115,7 +119,7 @@
 
     <?php if ($originally_pinned = pinboard_helper_originally_pinned($node)) { ?>
         <div class="pin-block-originally">
-        <?php print '<h5>'.t('Originally pinned by').'</h5><h4><a target="_blank" href="'.url('user/'.$node->ph_uid).'">'.$node->ph_name.'</a></h4>'; ?>
+        <?php print '<h4><a target="_blank" href="'.url('user/'.$node->ph_uid).'">'.$node->ph_name.'</a></h4><h5>'.t('发表的信息').'</h5>'; ?>
         <a target="_blank" href="<?php print url('user/'.$node->ph_uid); ?>">
           <?php print $originally_pinned; ?>
         </a>
@@ -125,7 +129,7 @@
       
     <?php if ($pinned_onto = pinboard_helper_pinned_onto_board($node)) { ?>
         <div class="pin-block-board">
-        <?php print '<h5>'.t('Pinned onto the board').'</h5><h4><a target="_blank" href="'.url('user/'.$node->uid.'/board/'.$node->ph_bid).'">'.$node->ph_bname.'</a></h4>'; ?>
+        <?php print '<h5>'.t('同板块的信息').'</h5><h4><a target="_blank" href="'.url('user/'.$node->uid.'/board/'.$node->ph_bid).'">'.$node->ph_bname.'</a></h4>'; ?>
         <a target="_blank" href="<?php print url('user/'.$node->uid.'/board/'.$node->ph_bid); ?>">
           <?php print $pinned_onto; ?>
         </a>

@@ -1,1 +1,1 @@
-<?php if ($fields['field_embed']->content) print $fields['field_embed']->content; else print $fields['field_image']->content;?>
+<?php print $fields['field_image']->content;?>

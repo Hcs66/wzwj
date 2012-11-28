@@ -1,7 +1,319 @@
-a, a:visited { color: #e54337; }
-a:hover, a:focus { color: #ff6666; }
-#top_menu_subj_bar ul.menu li a.active-trail,
-#top_menu_bar ul.menu li a.active-trail,
-#top_menu_subj_bar ul.menu li a.active,
-#top_menu_bar ul.menu li a.active
-{ color: #000; }
+body {
+	background-image: url(../img/bg1.png);
+	color: #333;
+}
+a {
+	color: #336699;
+}
+a:hover {
+	color: #333;
+}
+h1, h2, h3, h4, h5, h6 
+{
+	color: #333;
+}
+h1 {
+	color: #669900;
+}
+.header {
+	background-image: url(../img/bg-header-r.png);
+}
+
+.header .top {
+	background-image: url(../img/bg-top-r.png);
+}
+.header .top ul.menu li a {
+	color: #FFF;
+	text-shadow: #8a8a8a 1px 1px 1px;
+}
+.header .top ul.menu li a:hover {
+	background-color: #4e3c87;
+	text-shadow: #8a8a8a 1px 1px 1px;
+}
+.header .nav {
+	background-image: url(../img/bg-nav-g.png);
+}
+.header .nav .or {
+	color: #999;
+}
+.header .nav .center a {
+	color: #FFF;
+	background-image: url(../img/button-bg-r.png);
+	border: 1px solid #cc0000;
+	text-shadow: #8a8a8a 1px 1px 1px;
+}
+.header .nav ul.menu li a {
+	color: #333;
+}
+.header .nav ul.menu li a:hover {
+	color: #666;
+}
+.header .nav ul.menu .expanded a {
+	background-image: url(../img/menu-b.png);
+}
+.header .nav ul.menu li ul.menu {
+	background-color: #FFF;
+	border: 1px solid #ccccc8;
+}
+.header .nav ul.menu ul.menu li a {
+	color: #006699;
+}
+.header .nav ul.menu ul.menu li a:hover {
+	color: #333;
+}
+.header .nav .search {
+	background-image: url(../img/search-h-bg-g.png);
+}
+.footer {
+	background-image: url(../img/bg-footer.png);
+}
+.signup-block {
+	color: #666;
+	background-color: #fafaf7;
+	border: 1px solid #e3e3dc;
+}
+.signup-block a {
+	color: #FFF;
+	background-image: url(../img/button-bg-p.png);
+	text-shadow: #2786ad 1px 1px 1px; 
+}
+
+.pin_box,
+.board_box 
+{
+	background-color: #fafaf7;
+}
+.pin_box .inbox {
+	border-color: #e8e8e3;
+}
+.pin_box .inbox:hover {
+	border-color: #cbcbc7;
+}
+.pin_box .stat span {
+	color: #999;
+}
+.pin_box .stat span a {
+	color: #999;
+}
+.pin_box .stat span a:hover {
+	color: #000;
+}
+.pin_box .user,
+.pin_box .comment
+{
+	color: #666;
+	border-bottom-color: #e8e8e3;
+	border-right-color: #e8e8e3;
+	border-left-color: #e8e8e3;
+}
+.pin_box .user a,
+.pin_box .comment a 
+{
+	color: #666;
+}
+.pin_box .user a:hover,
+.pin_box .comment a:hover 
+{
+	color: #000;
+}
+.pin_box .action {
+	background-image: url(../img/bg-pin-action.png);
+}
+.pin_box .action a {
+	background-image: url(../img/action-repin.png);
+	color: #dadada;
+}
+.pin_box .action a:hover {
+	color: #fff;
+}
+.pin_box .action a.repin {
+	background-image: url(../img/action-repin.png);
+}
+.pin_box .action a.like {
+	background-image: url(../img/action-like.png);
+}
+.pin_box .action a.comment {
+	background-image: url(../img/action-comment.png);
+}
+.top-profile-block .left a {
+	border: 1px solid #e9e9e5;
+	background-color: #FFF;
+}
+.top-profile-block .left a:hover {
+	border-top-color: #ccccc9;
+	border-right-color: #ccccc9;
+	border-bottom-color: #ccccc9;
+	border-left-color: #ccccc9;
+}
+.top-profile-block .center {
+	color: #666;
+}
+.top-profile-block .right .twitter-block {
+	border: 1px solid #e9e9e6;
+	background-color: #fafaf7;
+}
+.tweet_list li {
+	color: #999;
+}
+.tweet_list li a {
+	color: #336699;
+}
+.twitter-block h6 {
+	color: #336699;
+}
+.top-profile-block h1 {
+	color: #333;
+}
+.top-profile-block .stat a {
+	color: #336699;
+}
+.actions a  {
+	color: #FFF;
+	background-image: url(../img/button-bg-pr-p.png);
+}
+.actions a:hover {
+	background-image: url(../img/button-bg-pr-a.png);
+}
+.board_box {
+	background-image: url(../img/bg-board-bottom.png);
+}
+.board_box a.boards {
+	border: 1px solid #e9e9e5;
+	background-color: #fafaf7;
+}
+.board_box a.boards:hover {
+	border: 1px solid #ccccc8;
+}
+.board_box .title {
+	color: #333;
+}
+.board_box .board-links {
+	border-right-color: #e8e8e3;
+	border-bottom-color: #e8e8e3;
+	border-left-color: #e8e8e3;
+	background-color: #fafaf7;
+}
+.board_box .board-links a {
+	color: #336699;
+}
+.board_box .board-links a:hover {
+	color: #000;
+}
+.pin-node .stat a {
+	color: #999;
+}
+.pin-node .stat a:hover {
+	color: #333;
+}
+.pin-image {
+	background-color: #f4f4f0;
+	border: 1px solid #e9e9e5;
+}
+.pin-des {
+	background-color: #f3f3ef;
+	border-right-color: #e9e9e5;
+	border-bottom-color: #e9e9e5;
+	border-left-color: #e9e9e5;
+}
+.pin-node .field-type-taxonomy-term-reference div.field-item a {
+	background-color: #dee3e4;
+}
+.pin-node .actions a {
+	background-image: url(../img/button-bg-prb-p.png);
+}
+.pin-node .actions a:hover {
+	background-image: url(../img/button-bg-prb-a.png);
+}
+.comments {
+	background-color: #f4f4f0;
+	border: 1px solid #e9e9e4;
+}
+.comments h6 {
+	color: #333;
+	border-bottom-color: #dfe5e6;
+}
+.comments .comment {
+	border-bottom-color: #e1e6e8;
+}
+.comments .commentform input[type="submit"] {
+	background-image: url(../img/button-bg-prb-p.png);
+	color: #FFF;
+}
+.comments .commentform input[type="submit"]:hover {
+	background-image: url(../img/button-bg-prb-a.png);
+}
+.comments .commentform textarea {
+	border: 1px solid #d1d1cf;
+	background-color: #f5f5f1;
+}
+.node_pin_page .right .inn {
+	background-color: #fafaf7;
+	border: 1px solid #eaeae6;
+}
+.pin-block-category h5,
+.pin-block-originally h5,
+.pin-block-board h5
+{
+	color: #333;
+}
+.pin-block-category h4,
+.pin-block-originally h4,
+.pin-block-board h4
+{
+	color: #336699;
+}
+.block-right h6 {
+	color: #336699;
+}
+.block-right .con {
+	color: #999;
+}
+.blog {
+	background-color: #fff;
+	border: 1px solid #c9c9c5;
+	color: #666;
+}
+.blog .info {
+	color: #999;
+}
+.blog .act .links li a {
+	color: #FFF;
+	background-image: url(../img/button-bg-prb-p.png);
+}
+.blog .act .links li a:hover {
+	background-image: url(../img/button-bg-prb-a.png);
+}
+.node_pin_page h1.title {
+	color: #333;
+}
+.blog .block {
+	color: #999;
+}
+.blog .block.left {
+	border-right-color: #d6e0eb;
+}
+.blog .block.right {
+	border-left-color: #d6e0eb;
+}
+.blog .comments {
+	background-color: #FFF;
+}
+.blog .comments .commentform textarea {
+	background-color: #fefefd;
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .header .nav {
+	  background-color: #eee;
+	  background-image: none;
+  }
+}
+@media only screen and (max-width: 479px) {
+  .header .top {
+	  background-color: #ec2f2f;
+	  background-image: none;
+  }
+  .header .nav {
+	  background-color: #eee;
+	  background-image: none;
+  }
+}

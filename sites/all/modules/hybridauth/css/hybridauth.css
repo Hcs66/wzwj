@@ -1,0 +1,23 @@
+.hybridauth-widget li {
+  display: inline-block;
+  margin: 2px;
+  padding: 0;
+  list-style-type: none;
+}
+.hybridauth-widget a {
+  padding: 0;
+  margin: 0;
+}
+
+#hybridauth-modal div.ctools-modal-content .modal-header {
+  background-color: #999;
+}
+#hybridauth-modal {
+  padding: 10px;
+  background-color: #000;
+}
+#hybridauth-modal .ctools-modal-content {
+  background-color: #fff;
+  border: 0;
+  padding-bottom: 20px;
+}

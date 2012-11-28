@@ -354,7 +354,7 @@ function standard_install() {
     'entity_type' => 'node',
     'label' => 'Image',
     'bundle' => 'article',
-    'description' => st('Upload an image to go with this article.'),
+    'description' => st('上传一张图片'),
     'required' => FALSE,
 
     'settings' => array(

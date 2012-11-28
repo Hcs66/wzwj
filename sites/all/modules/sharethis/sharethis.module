@@ -265,6 +265,7 @@ function sharethis_node_view($node, $view_mode, $langcode) {
   if ($view_mode == 'search_result' || $view_mode == 'search_index') {
     return;
   }
+
   // First get all of the options for the sharethis widget from the database:
   $data_options = sharethis_get_options_array();
   
@@ -358,6 +359,26 @@ function sharethis_get_options_array() {
  * It returns the appropriate html based on your settings.
  */
 function sharethis_get_button_HTML($data_options, $mPath, $mTitle) {
+  //百度分享
+  $shareHTML='<div class="sharethis-wrapper">';
+  $shareHTML.='<div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare">';
+  $shareHTML.='<a class="bds_tsina"></a>';
+  $shareHTML.='<a class="bds_qzone"></a>';
+  $shareHTML.='<a class="bds_tqq"></a>';
+  $shareHTML.='<a class="bds_renren"></a>';
+  $shareHTML.='<a class="bds_douban"></a>';
+  $shareHTML.='<a class="bds_t163"></a>';
+  $shareHTML.='<span class="bds_more"></span>';
+  $shareHTML.='<a class="shareCount"></a>';
+  $shareHTML.='</div>';
+  $shareHTML.='</div>';
+  $shareHTML.='<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=3846517" ></script>';
+  $shareHTML.='<script type="text/javascript" id="bdshell_js"></script>';
+  $shareHTML.='<script type="text/javascript">';
+  $shareHTML.='document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)';
+  $shareHTML.='</script>';
+
+  return $shareHTML;
   // Inject the extra services.
   foreach ($data_options['option_extras'] as $service) {
     $data_options['services'] .= ',"' . $service . '"';

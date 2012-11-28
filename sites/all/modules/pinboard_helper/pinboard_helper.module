@@ -4,7 +4,7 @@ define('NOTIFY_REPIN_MESSAGE', 'User !user !user_url made a repin !repin_url of 
 define('NOTIFY_FOLLOW_SUBJECT', 'Message from site !site_name about a new follower');
 define('NOTIFY_FOLLOW_MESSAGE', 'User !user !user_url has followed your boards');
 define('NOTIFY_UNFOLLOW_SUBJECT', 'Message from site !site_name about an unfollower');
-define('NOTIFY_UNFOLLOW_MESSAGE', 'User !user !user_url�has unfollowed your boards');
+define('NOTIFY_UNFOLLOW_MESSAGE', 'User !user !user_url has unfollowed your boards');
 define('NOTIFY_COMMENT_SUBJECT', 'Message from site !site_name about a new comment');
 define('NOTIFY_COMMENT_MESSAGE', 'User !user !user_url has posted a comment !comment_url');
 define('PINBOARD_HELPER_FLAG_TYPES', "Sexual Content\nViolent or Repulsive Content\nHateful or Abusive Content\nHarmful Dangerous Acts\nSpam\nInfringes My Rights");
@@ -131,7 +131,7 @@ function pinboard_helper_field_extra_fields() {
       $extra['node'][$type->type] = array(
         'form' => array(
           'pinboard_board' => array(
-            'label' => t('Board'),
+            'label' => t('所属板块'),
             'description' => t('Pinboard helper module element'),
             'weight' => -5,
           ),
@@ -158,7 +158,7 @@ function pinboard_helper_content_form($node, $form_state) {
   if ($type->has_title and $type->type == 'pin') {
     $form['board'] = array(
       '#type' => 'textfield',
-      '#title' => t('Board*'),
+      '#title' => t('所属板块*'),
       '#required' => TRUE,
       '#default_value' => '',
       '#maxlength' => 255,
@@ -948,7 +948,7 @@ function pinboard_helper_form_alter(&$form, $form_state, $form_id) {
     $name = db_select('pinboard_boards')->fields('pinboard_boards', array('name'))->condition('bid', $bid, '=')->execute()->fetchCol();
     if (count($name)) $name = $name[0]; else $name = '';
     $form['pinboard_board'] = array(
-      '#title' => t('Board'),
+      '#title' => t('所属板块'),
       '#type' => 'textfield',
       '#default_value' => $name,
       '#autocomplete_path' => 'pinboard/autocomplete',
@@ -956,7 +956,7 @@ function pinboard_helper_form_alter(&$form, $form_state, $form_id) {
       '#maxlength' => 1024,
       '#weight' => (isset($fw['extra_fields']['form']['pinboard_board']['weight']) ? $fw['extra_fields']['form']['pinboard_board']['weight'] : -5),
       '#required' => true,
-      '#description' => t('Select the name of the board from the drop down list or type its name to create a new board. The new board will be created automatically according to the name you entered in the field'),
+      '#description' => t('从列表中选择所属板块，或者直接输入新的板块'),
     );
     if (isset($form['#node']->did)) {
       $form['pinboard_did'] = array(
@@ -3190,7 +3190,6 @@ function pinboard_helper_addpinit () {
   $out = '';
   $out .= '<div id="PinItButtonContainer"><div id="PinButton"><div id="ButtonHolder"><a onclick="alert(\''.t('Drag me to the bookmarks bar').'\'); return false;" href="javascript:void((function(){var e=document.createElement(\'script\');e.setAttribute(\'type\',\'text/javascript\');e.setAttribute(\'charset\',\'UTF-8\');e.setAttribute(\'src\',\''.$url.'r=\'+Math.random()*99999999);document.body.appendChild(e)})());" title="Pin It" id="BigPinItButton"><strong>'.t('Pin It').'</strong><span></span></a>';
   $out .= '<p id="ButtonInstructions"> &nbsp;&nbsp;'.t('Add this link to your Bookmarks Bar').'</p></div>';
-
   $out .= '<p>'.t('To install the "Pin It" button in your Browser:').'</p>';
   $out .= '<div id="InstallationInstructions" class="small"><ol>';
   $out .= '<li>'.t('Display your Bookmarks Bar by clicking View &gt; Toolbars &gt; Bookmarks Toolbar').'</li>';
@@ -3314,8 +3313,8 @@ function pinboard_helper_userpage_pins () {
     	$out .= $out1;
     $out .= $pp;
     } else {
-      $out1 = '';
-      $out1 = '<div id="block-system-main" class="block block-system"><div class="content">';
+      $out1 = '<div class="board_page">';
+      //$out1 = '<div id="block-system-main" class="block block-system"><div class="content">';
       $result = db_select('pinboard_boards', 'b')
         ->extend('PagerDefault')
         ->fields('b',array('bid', 'name'))
@@ -3326,7 +3325,7 @@ function pinboard_helper_userpage_pins () {
         
         $result2 = db_select('pinboard_repins', 'r')->fields('r', array('nid'))->condition('bid', $k, '=')->orderBy('nid', 'DESC')->range(0, 9)->execute()->fetchCol();
         if (count($result2)) {
-          $out1 .= '<div class="board"><div class="board_in clearfix"><h2>'.$v.'</h2><div class="thumb clearfix"><a class="link" href="'.url('user/'.$acc->uid.'/board/'.$k).'">';
+          $out1 .= '<div class="board_box"><a class="boards" href="'.url('user/'.$acc->uid.'/board/'.$k).'"><div class="title">'.$v.'</div>';
           $nodes = node_load_multiple($result2);
           $nodes = node_view_multiple($nodes);
           //print '<div class="user_profile_main"><pre>'. check_plain(print_r($nodes['nodes'], 1)) .'</pre></div>'; 
@@ -3345,32 +3344,33 @@ function pinboard_helper_userpage_pins () {
           }
           $ii = 9 - count($result2);
         } else {
-          $out1 .= '<div class="board"><div class="board_in clearfix"><h2>'.$v.'</h2><div class="thumb clearfix">';
+          $out1 .= '<div class="board_box"><a class="boards" href="#"><div class="title">'.$v.'</div>';
           $ii = 9;
         }
         for ( $i=0; $i<$ii; $i++) {
-          $out1 .= '<div class="noimgpinbrd">&nbsp;</div>';
+          $out1 .= '<img src="'.url('sites/all/themes/pinboard/img/tr.png').'"/>';
         }
         if (count($result2)) {
-          $out1 .= '</a></div>';
+          $out1 .= '</a>';
         } else {
-          $out1 .= '</div>';
+          $out1 .= '</a>';
         }
         
         if ($user->uid and $acc->uid != $user->uid) { 
           if (pinboard_helper_isfollow ($acc, $k)) 
-            $out1 .= '<div class="follow_b"><a class="b" href="'.url('unfollow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.t('Unfollow').'</a></div>';
+            $out1 .= '<div class="board-links"><a href="'.url('unfollow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.t('Unfollow').'</a></div>';
           else
-            $out1 .= '<div class="follow_b"><a class="b" href="'.url('follow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.t('Follow').'</a></div>';
+            $out1 .= '<div class="board-links"><a href="'.url('follow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.t('Follow').'</a></div>';
         } elseif ($user->uid) {
-          $out1 .= '<div class="follow_b"><a class="b" href="'.url('board/edit/'.$k, array('query' => $destination)).'">'.t('Edit').'</a></div>';
+          $out1 .= '<div class="board-links"><a href="'.url('board/edit/'.$k, array('query' => $destination)).'">'.t('Edit').'</a></div>';
         }
-        $out1 .= '</div></div>';
+        $out1 .= '</div>';
         //} else {
           //db_delete('pinboard_boards')->condition('bid', $k, '=')->execute();
         //}
         //print '</a></div><div class="follow_b"><a class="b" href="#">Follow</a></div></div></div>';
       }
+      $out1 .= '</div>';
       $pp = theme('pager');
       if (!$pp or !isset($_GET['page']) or strpos($pp,'page='.$_GET['page']) or strpos($pp, '>'.($_GET['page'] + 1).'<'))
         $out .= $out1;

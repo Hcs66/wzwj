@@ -53,6 +53,7 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <meta property="qc:admins" content="6540377777652116752016375" />
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Rokkitt:400,700" />
   <?php print $styles; ?>
   <style type="text/css">
@@ -73,5 +74,6 @@
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
+  <script src="http://s4.cnzz.com/stat.php?id=4796677&web_id=4796677" language="JavaScript"></script>
 </body>
 </html>

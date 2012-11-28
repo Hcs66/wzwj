@@ -8,15 +8,45 @@ drupal_add_js('misc/form.js');
 drupal_add_js('misc/collapse.js');
 drupal_add_js('
 jQuery(document).ready(function($) {
-	// Twitter
-	jQuery(\'.widget-twitter\').each(function() {
-		jQuery(\'> .tweets\', this).tweet({
-			username: jQuery(this).data(\'username\'),
-			count:    jQuery(this).data(\'count\'),
-			retweets: jQuery(this).data(\'retweets\'),
-			template: \'{tweet_text}<br /><small><a href="{tweet_url}">{tweet_relative_time}</a></small>\'
-		});
-	});
+	  function getScrollTop() {
+    var scrOfY = 0;
+    if( typeof( window.pageYOffset ) == "number" ) {
+      //Netscape compliant
+      scrOfY = window.pageYOffset;
+    } else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) {
+      //DOM compliant
+      scrOfY = document.body.scrollTop;
+    } else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
+      //IE6 Strict
+      scrOfY = document.documentElement.scrollTop;
+    }
+    return scrOfY;
+  }
+  
+  function fixPaneRefresh(){
+    if ($(".header").length) {
+      var top  = getScrollTop();
+      if (top > $(".top").height() && !(tablet || mobile)) {
+        if (!$(".header").hasClass("top48")) {
+          $(".header").addClass("top48");
+          $(".main").css("margin-top", $(".top").height() + $(".nav").height() + 29 + "px");
+          $(".header").css("position","fixed");
+          $(".header").css("top","0");
+          $(".top").css("display","none");
+          
+        }
+      } else {
+        if ($(".header").hasClass("top48")) {
+          $(".header").removeClass("top48");
+          $(".top").css("display","block");
+          $(".header").css("position","static");
+          $(".header").css("top","0");
+          $(".main").css("margin-top","0px");
+        }
+      }
+    }
+  }  
+
 	
 	// Media types
 	jQuery(window).resize(function() {
@@ -30,6 +60,11 @@ jQuery(document).ready(function($) {
 		tablet    = lteTablet && gteTablet;
 		mobile    = lteMobile && gteMobile;
 	}).trigger(\'resize\');
+
+  $(window).scroll(function() {
+    fixPaneRefresh();
+  });
+
 	
 
 	  jQuery(\'.nav .menu li.expanded\').mouseover(function() {
@@ -338,15 +373,35 @@ jQuery(document).ready(function(){
         });
       }
     );
- 
+
     if (checkBrowser()){ 
-    	jQuery(\'.pin_image a\').click(pin_image_click);
- 			jQuery(\'body\').click(function(event) {
-      	if (!jQuery(event.target).closest(\'.p_zoom_in\').length && jQuery(\'.p_zoom_in\').length && jQuery(\'.pin_image a\').length) {
-        	history.back();
-      	};
-    	});
+      $(\'.pin_box .photo .field a\').click(pin_image_click); $(\'.pin_box .photo a.video\').click(pin_image_click); $(\'.pin_box .action a.action-pin\').click(pin_image_click);
+      $(\'body\').click(function(event) {
+        if (!$(event.target).closest(\'.pin_container iframe\').length && $(\'.pin_container iframe\').length && $(\'.pin_box .photo a\').length) {
+          history.back();
+        };
+      });
+
+      jQuery(\'.pin_box .inbox\').mouseover(function() {
+        if (!jQuery(this).hasClass(\'active\')) {
+          jQuery(\'.pin_box .inbox\').removeClass(\'active\');
+          jQuery(this).addClass(\'active\');
+          jQuery(\'.pin_box .inbox .action\').fadeOut();
+          var activeTab = jQuery(this).find(\'.action\');
+          jQuery(activeTab).fadeIn();
+          return false;
+        }
+      });
+
+      jQuery(\'.pin_box .inbox\').mouseleave(function() {
+        if (jQuery(this).hasClass(\'active\')) {
+          jQuery(\'.pin_box .inbox\').removeClass(\'active\');
+          jQuery(\'.pin_box .inbox .action\').fadeOut();
+          return false;
+        }
+      });
     }
+
 
   });
  
@@ -359,13 +414,16 @@ function pinboard_get_comments($pid, $node) {
   $i = 4;
   $comments = comment_load_multiple(array(), array('pid' => $pid, 'nid' => $node->nid));
   $j = count($comments);
+  if($j>0){
+    $out.='<div class="comment" style="text-align:center;min-height:15px;color:#336699;">评论</div>';
+  }
   foreach ($comments as $com) {
     $comment = comment_view($com, $node);
-		$out .= '<div class="comments"><div class="comment_box">'.theme('user_picture', array('account' => $comment['#comment'])).''.theme('username', array('account' => $comment['#comment'])).' '.pinboard_truncate_utf8(strip_tags(render($comment['comment_body'])),200, true, true).'</div></div>';
+		$out .= '<div class="comment">'.theme('user_picture', array('account' => $comment['#comment'])).''.theme('username', array('account' => $comment['#comment'])).' '.pinboard_truncate_utf8(strip_tags(render($comment['comment_body'])),200, true, true).'</div>';
 
     if (!$i) { 
       if ($j > 5) { 
-         $out .= '<div class="comments"><div class="comment_box"><a href="'.url("node/$node->nid", array('fragment' => 'comment-form')).'">'.t('All !count comments...', array('!count' => $j)).'</a></div></div>';
+         $out .= '<div class="comment"><a href="'.url("node/$node->nid", array('fragment' => 'comment-form')).'">'.t('查看所有 !count 个评论...', array('!count' => $j)).'</a></div>';
       }
       return $out;
     }
@@ -383,18 +441,18 @@ function pinboard_get_comments($pid, $node) {
 function pinboard_preprocess_rate_template_thumbs_up(&$variables) {
   extract($variables);
 
-  $variables['up_button'] = theme('rate_button', array('text' => t('Like'), 'href' => $links[0]['href'], 'class' => 'rate-thumbs-up-btn-up'));
+  $variables['up_button'] = theme('rate_button', array('text' => t('喜欢'), 'href' => $links[0]['href'], 'class' => 'rate-thumbs-up-btn-up'));
 
   $info = array();
   if ($mode == RATE_CLOSED) {
-    $info[] = t('Voting is closed.');
+    $info[] = t('投票已结束.');
   }
   if ($mode != RATE_COMPACT && $mode != RATE_COMPACT_DISABLED) {
     if (isset($results['user_vote'])) {
-      $info[] = format_plural($results['count'], '@count Likes', '@count Likes');
+      $info[] = format_plural($results['count'], '@count 喜欢', '@count 喜欢');
     }
     else {
-      $info[] = format_plural($results['count'], '@count Likes', '@count Likes');
+      $info[] = format_plural($results['count'], '@count 喜欢', '@count 喜欢');
     }
   }
   $variables['info'] = implode(' ', $info);
