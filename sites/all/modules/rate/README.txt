@@ -10,6 +10,8 @@ CONTENTS
 1. Installation
 2. Configuration
 2.1. Widget configuration
+2.2. Options
+2.3. Bot detection
 3. Widget types
 4. Theming
 5. Voting results
@@ -157,6 +159,28 @@ up" must have the value '1', "thumbs down" the value '-1' and "neutral" '0'. For
 'Percentage' you have to use whole numbers between 0 and 100. When using
 'Options', you may use any number as long as they are unique. It doesn't have to
 make sense as they are only used for storage.
+
+2.3. Bot detection
+--------------------------------------------------------------------------------
+The Rate module is able to detect bots in three ways:
+
+* Based on user agent string
+* Using an threshold. The IP-address is blocked when there are more votes from
+  the same IP within a given time than the threshold. There are thresholds for
+  1 minute and 1 hour.
+* Lookup the IP-address in the BotScout.com database. This requires you to
+  obtain an API-key.
+
+The thresholds and API-key can be configured at the settings form found on
+admin/structure/rate/settings. The default thresholds are 25 and 250. They are
+too high for many sites, but you should make sure that no real users get
+blocked. On the other hand, lower thresholds will identify more bots and will
+identify them faster. A value of 10 / 50 is a better setting for most sites.
+
+Bad user agents cannot be configured via the admin at this moment. You can add
+bad strings in the 'rate_bot_agent' table. Percent signs ("%") can be used as
+wildcards. A string can be for example "%GoogleBot%" or just "%bot%". Patterns
+are case insensitive. The id field is for identification and has no meaning.
 
 3. Widget types
 --------------------------------------------------------------------------------

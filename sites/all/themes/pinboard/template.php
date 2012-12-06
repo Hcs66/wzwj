@@ -2,7 +2,7 @@
 // $Id$
 global $base_url, $language;
 //drupal_set_message('<pre>'. check_plain(print_r($language, 1)) .'</pre>');
-drupal_add_css(path_to_theme().'/type/'.theme_get_setting('tm_value_4').'.css', array('group' => CSS_THEME, 'preprocess' => FALSE));
+/*drupal_add_css(path_to_theme().'/type/'.theme_get_setting('tm_value_4').'.css', array('group' => CSS_THEME, 'preprocess' => FALSE));*/
 drupal_add_css(path_to_theme().'/color/'.theme_get_setting('tm_value_3').'.css', array('group' => CSS_THEME, 'preprocess' => FALSE));
 drupal_add_js('misc/form.js');
 drupal_add_js('misc/collapse.js');
@@ -61,9 +61,6 @@ jQuery(document).ready(function($) {
 		mobile    = lteMobile && gteMobile;
 	}).trigger(\'resize\');
 
-  $(window).scroll(function() {
-    fixPaneRefresh();
-  });
 
 	
 
@@ -326,12 +323,6 @@ jQuery(document).ready(function(){
           $newElems.addClass(\'second_\'+a_second);
           $newElems.animate({ opacity: 1 });
           $container.masonry( \'appended\', $newElems, true );
-          if (checkBrowser()) {
-            jQuery(\'.second_\'+a_second+\' .pin_image a\').click(pin_image_click);
-            jQuery(\'.pin_box .photo .field a\').click(pin_image_click); 
-            jQuery(\'.pin_box .photo a.video\').click(pin_image_click); 
-            jQuery(\'.pin_box .action a.action-pin\').click(pin_image_click); 
-          }
 
           
           jQuery(\'.like-widget:not(.like-processed)\').addClass(\'like-processed\').each(function () {
@@ -375,12 +366,6 @@ jQuery(document).ready(function(){
     );
 
     if (checkBrowser()){ 
-      $(\'.pin_box .photo .field a\').click(pin_image_click); $(\'.pin_box .photo a.video\').click(pin_image_click); $(\'.pin_box .action a.action-pin\').click(pin_image_click);
-      $(\'body\').click(function(event) {
-        if (!$(event.target).closest(\'.pin_container iframe\').length && $(\'.pin_container iframe\').length && $(\'.pin_box .photo a\').length) {
-          history.back();
-        };
-      });
 
       jQuery(\'.pin_box .inbox\').mouseover(function() {
         if (!jQuery(this).hasClass(\'active\')) {
@@ -491,5 +476,15 @@ function pinboard_truncate_utf8($string, $len, $wordsafe = FALSE, $dots = FALSE,
 
   return $string;
 }
+
+/*function pinboard_preprocess_page(&$vars) {
+    // HACK: Use custom 403 and 404 pages
+    if (strpos(drupal_get_headers(), '403 Forbidden') !== FALSE) {
+        $vars['template_files'][] = "page-403";
+    }
+    if (strpos(drupal_get_headers(), '404 Not Found') !== FALSE) {
+        $vars['template_files'][] = "page-404";
+    }
+}*/
 
 

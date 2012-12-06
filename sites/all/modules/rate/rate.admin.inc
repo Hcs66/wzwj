@@ -152,6 +152,7 @@ function rate_widget_form($form, &$form_state, $id = NULL) {
     $widget->displayed_just_voted = RATE_USER;
     $widget->description = '';
     $widget->description_in_compact = TRUE;
+    $widget->delete_vote_on_second_click = 0;
   }
   
   // Determine the template from GET (which is only available before the form
@@ -313,7 +314,7 @@ function rate_widget_form($form, &$form_state, $id = NULL) {
 
     $form['options']['option_count'] = array(
       '#type' => 'hidden',
-      '#default_value' => $option_count,
+      '#value' => $option_count,
     );
 
     $form['options']['add_another'] = array(
@@ -449,11 +450,24 @@ function rate_widget_form($form, &$form_state, $id = NULL) {
     RATE_AVERAGE => t('Average rating'),
     RATE_USER => t('Users vote'),
   );
+
   $form['interaction']['displayed_just_voted'] = array(
     '#type' => 'radios',
     '#title' => t('Which rating should be displayed when the user just voted?'),
     '#options' => $options,
     '#default_value' => $widget->displayed_just_voted,
+  );
+
+  $click_options = array(
+    0 => t('No'),
+    1 => t('Yes'),
+  );
+  $form['interaction']['delete_vote_on_second_click'] = array(
+    '#type' => 'radios',
+    '#title' => t('Should a second click on the same button delete the vote?'),
+    '#options' => $click_options,
+    '#default_value' => $widget->delete_vote_on_second_click,
+    '#description' => t('Example: the Facebook "Like" button.'),
   );
 
   $form['permissions'] = array(
@@ -586,6 +600,7 @@ function rate_widget_form_submit($form, &$form_state) {
   $widget->displayed_just_voted = $form_state['values']['displayed_just_voted'];
   $widget->description = $form_state['values']['description'];
   $widget->description_in_compact = (bool) $form_state['values']['description_in_compact'];
+  $widget->delete_vote_on_second_click = $form_state['values']['delete_vote_on_second_click'];
   
   if ($widget->template != 'custom') {
     // Take over the values from the template.
@@ -763,4 +778,74 @@ function rate_widget_delete_form_submit($form, &$form_state) {
     module_invoke_all('rate_widget_delete', $widget);
   }
   $form_state['redirect'] = RATE_PATH_ADMIN_PAGE;
+}
+
+/**
+ * Admin settings form.
+ */
+function rate_settings_form($form, &$form_state) {
+  
+  $form['bot'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Bot detection'),
+    '#description' => t('Bots can be automatically banned from voting if they rate more than a given amount of votes within one minute or hour. This threshold is configurable below. Votes from the same IP-address will be ignored forever after reaching this limit.'),
+    '#collapsbile' => FALSE,
+    '#collapsed' => FALSE,
+  );
+  
+  $options = drupal_map_assoc(array(0, 10, 25, 50, 100, 250, 500, 1000));
+  $options[0] = t('disable');
+  
+  $form['bot'][RATE_VAR_BOT_MINUTE_THRESHOLD] = array(
+    '#type' => 'select',
+    '#title' => t('1 minute threshold'),
+    '#options' => $options,
+    '#default_value' => variable_get(RATE_VAR_BOT_MINUTE_THRESHOLD, 25),
+  );
+  
+  $form['bot'][RATE_VAR_BOT_HOUR_THRESHOLD] = array(
+    '#type' => 'select',
+    '#title' => t('1 hour threshold'),
+    '#options' => $options,
+    '#default_value' => variable_get(RATE_VAR_BOT_HOUR_THRESHOLD, 250),
+  );
+  
+  /* Feature planned for 1.5 release
+  $form['bot'][RATE_VAR_BOT_RETROACTIVE] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Retroactive delete votes'),
+    '#default_value' => variable_get(RATE_VAR_BOT_RETROACTIVE, TRUE),
+    '#description' => t('The bot detection is a retrospective process. When enabled all votes done from the bots IP will be deleted when the bot hits the threshold.'),
+  );
+  */
+  
+  $form['bot'][RATE_VAR_BOT_BOTSCOUT_KEY] = array(
+    '#type' => 'textfield',
+    '#title' => t('BotScout.com API key'),
+    '#default_value' => variable_get(RATE_VAR_BOT_BOTSCOUT_KEY, ''),
+    '#description' => t('Rate will check the voters IP against the BotScout database if it has an API key. You can request a key at %url.', array('%url' => 'http://botscout.com/getkey.htm')),
+  );
+  
+  return system_settings_form($form);
+}
+
+/**
+ * Form validate callback for the settings form.
+ */
+function rate_settings_form_validate($form, &$form_state) {
+  if (!empty($form_state['values'][RATE_VAR_BOT_BOTSCOUT_KEY])) {
+    $url = "http://botscout.com/test/?ip=84.16.230.111&key=" . $form_state['values'][RATE_VAR_BOT_BOTSCOUT_KEY];
+    $data = drupal_http_request($url, array('timeout' => 5));
+    if ($data->code == 200) {
+      if ($data->data{0} == 'Y' || $data->data{0} == 'N') {
+        drupal_set_message(t('Rate has succesfully contacted the BotScout server.'));
+      }
+      else {
+        form_set_error(RATE_VAR_BOT_BOTSCOUT_KEY, t('Invalid API-key.'));
+      }
+    }
+    else {
+      form_set_error(RATE_VAR_BOT_BOTSCOUT_KEY, t('Rate was unable to contact the BotScout server.'));
+    }
+  }
 }

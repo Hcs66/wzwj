@@ -46,5 +46,5 @@ stylesheets[all][] = css/style.css
 
 scripts[] = scr/jquery.masonry.js
 scripts[] = scr/jquery.infinitescroll.js
-scripts[] = scr/jquery.tweet.min.js
+;scripts[] = scr/jquery.tweet.min.js
 scripts[] = scr/like.js

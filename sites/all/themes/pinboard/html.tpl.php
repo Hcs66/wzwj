@@ -54,13 +54,8 @@
   <title><?php print $head_title; ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <meta property="qc:admins" content="6540377777652116752016375" />
-	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Rokkitt:400,700" />
+  <link href="<?php print $base_url.'/'.drupal_get_path('theme','pinboard').'/favicon.ico' ?>" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
   <?php print $styles; ?>
-  <style type="text/css">
-    body{
-      background:url(<?php print $base_url.'/'.drupal_get_path('theme','pinboard') ?>/bg/bg<?php print theme_get_setting('tm_value_5') ?>.jpg);
-    }
-  </style>
   <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -74,6 +69,5 @@
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
-  <script src="http://s4.cnzz.com/stat.php?id=4796677&web_id=4796677" language="JavaScript"></script>
 </body>
 </html>

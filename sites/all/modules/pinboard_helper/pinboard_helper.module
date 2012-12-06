@@ -65,7 +65,7 @@ function pinboard_helper_menu() {
     'type' => MENU_CALLBACK,
   );
   $menu['youfollow'] = array(
-    'title' => 'You Follow',
+    'title' => '你关注的',
     'page callback' => 'pinboard_helper_youfollow',
     'access callback' => 'pinboard_helper_follow_access',
     'type' => MENU_NORMAL_ITEM,
@@ -84,7 +84,7 @@ function pinboard_helper_menu() {
     'type' => MENU_CALLBACK,
   );
   $menu['board/edit'] = array(
-    'title' => 'Edit board',
+    'title' => '编辑专辑',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('pinboard_helper_form_board_edit', 2),
     'access callback' => 'pinboard_helper_follow_access',
@@ -92,7 +92,7 @@ function pinboard_helper_menu() {
   );
 
   $menu['user/%/notifications'] = array(
-    'title' => 'Notifications',
+    'title' => '通知信息',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('pinboard_helper_notifications', 2),
     'access callback' => 'pinboard_helper_uac_access',
@@ -131,7 +131,7 @@ function pinboard_helper_field_extra_fields() {
       $extra['node'][$type->type] = array(
         'form' => array(
           'pinboard_board' => array(
-            'label' => t('所属板块'),
+            'label' => t('所属专辑'),
             'description' => t('Pinboard helper module element'),
             'weight' => -5,
           ),
@@ -199,7 +199,7 @@ function pinboard_helper_vote_ahah() {
     }
   }
   $rateres = rate_get_results('node', $content_id, 1);
-  print '<span class="likesresult">'.format_plural($rateres['count'], '1 likes', '@count likes').'</span>';
+  print '<span class="likesresult">'.format_plural($rateres['count'], '1 喜欢', '@count 喜欢').'</span>';
   //print str_replace('rate','like',rate_generate_widget($widget_id, $content_type, $content_id, $widget_mode, TRUE, TRUE));
 
   module_invoke_all('exit') & exit;
@@ -360,27 +360,27 @@ function pinboard_helper_form_board_edit($form, &$form_state, $edit = array()) {
   }
   $form['name'] = array(
     '#type' => 'textfield',
-    '#title' => t('Board Name'),
+    '#title' => t('专辑名称'),
     '#default_value' => $name,
     '#maxlength' => 255,
     '#required' => TRUE,
   );
   $form['description'] = array(
     '#type' => 'textarea',
-    '#title' => t('Description'),
+    '#title' => t('描述'),
     '#default_value' => $data['description'],
   );
   $field['settings']['allowed_values'][0]['vocabulary'] = 'category';
   $field['settings']['allowed_values'][0]['parent'] = 0;
   $options = taxonomy_allowed_values($field);
-  $options = array(0 => t('Select a category')) + $options;
+  $options = array(0 => t('选择分类')) + $options;
   $form['category'] = array(
     '#type' => 'select',
-    '#title' => t('Category by default'),
+    '#title' => t('默认分类'),
     '#default_value' => $category,
     '#options' => $options,
     '#required' => false,
-    '#description' => t('This category will be used for all the pins to be added to this board, if you do not specify a pin for any other category.'),
+    '#description' => t(''),
     //'#disabled' => $has_data,
   );
   
@@ -401,7 +401,8 @@ function pinboard_helper_form_board_edit($form, &$form_state, $edit = array()) {
   //$tags[2]->name = 'rico';
   //$tags = array(1 => array('' => 'admin'), 2 => 'rico');
   
-  $form += array(
+  
+  /*$form += array(
     '#type' => 'item',
     '#markup' => '',
     //'#element_validate' => array('active_tags_taxonomy_autocomplete_validate'),
@@ -439,6 +440,7 @@ function pinboard_helper_form_board_edit($form, &$form_state, $edit = array()) {
   drupal_add_css(drupal_get_path('module', 'pinboard_helper') . '/at.css');
   drupal_add_js(array('activeTags' => array('mode' => 'csv')), 'setting');
   drupal_add_js(drupal_get_path('module', 'pinboard_helper') . '/at.js');
+  */
 
   
   
@@ -517,7 +519,7 @@ function pinboard_helper_form_board_edit_submit($form, &$form_state) {
     	  'data' => serialize($data)
   	  ))
       ->execute();
-    drupal_set_message(t('Updated board %name.', array('%name' => $form_state['values']['name'])));
+    drupal_set_message(t('更新专辑 %name.', array('%name' => $form_state['values']['name'])));
     $bid = $form_state['values']['bid'];
   } else {
     $query = db_insert('pinboard_boards')->fields(array('uid', 'name', 'data'));
@@ -709,7 +711,7 @@ function pinboard_helper_followers () {
         if ($out) {
             return $out;
         } else {
-            return t('No Pins');
+            return '没有信息';
         }
     } else {
         drupal_goto('user');
@@ -745,7 +747,7 @@ function pinboard_helper_youfollow () {
       else
       return '';
     } else {
-      return '<p>&nbsp;</p><center><h1>'.t('No Pins').'</h1></center><p>&nbsp;</p>';
+      return '<p>&nbsp;</p><center><h1>'.'没有信息'.'</h1></center><p>&nbsp;</p>';
     }
   } else {
     drupal_goto('user');
@@ -805,7 +807,7 @@ function pinboard_helper_follow () {
       ->condition('bid', $arg2, '=')
       ->execute()->fetchCol();
       if (count($bid)) $name = $bid[0];
-      drupal_set_message(t('You follow ').$name);
+      drupal_set_message(t('你关注了 ').$name);
       //drupal_goto('user/'.$arg1.'/board/'.$arg2);
     } else {
        $bids = db_select('pinboard_boards')
@@ -813,7 +815,7 @@ function pinboard_helper_follow () {
       ->condition('uid', $arg1, '=')
       ->execute()->fetchCol();
       if (count($bids)) $name = implode(', ', $bids);
-      drupal_set_message(t('You follow ').$name);
+      drupal_set_message(t('你关注了 ').$name);
       //drupal_goto('user/'.$arg1);
     }
     $var->nid = '';
@@ -861,7 +863,7 @@ function pinboard_helper_unfollow () {
       ->condition('bid', $arg2, '=')
       ->execute()->fetchCol();
       if (count($bid)) $name = $bid[0];
-      drupal_set_message(t('You unfollow ').$name);
+      drupal_set_message('你取消了对 '.$name.' 的关注');
       //drupal_goto('user/'.$arg1.'/board/'.$arg2);
     } else {
        $bids = db_select('pinboard_boards')
@@ -869,7 +871,7 @@ function pinboard_helper_unfollow () {
       ->condition('uid', $arg1, '=')
       ->execute()->fetchCol();
       if (count($bids)) $name = implode(', ', $bids);
-      drupal_set_message(t('You unfollow ').$name);
+      drupal_set_message('你取消了对 '.$name.' 的关注');
       //drupal_goto('user/'.$arg1);
     }
     $var->nid = '';
@@ -948,15 +950,15 @@ function pinboard_helper_form_alter(&$form, $form_state, $form_id) {
     $name = db_select('pinboard_boards')->fields('pinboard_boards', array('name'))->condition('bid', $bid, '=')->execute()->fetchCol();
     if (count($name)) $name = $name[0]; else $name = '';
     $form['pinboard_board'] = array(
-      '#title' => t('所属板块'),
+      '#title' => t('所属专辑'),
       '#type' => 'textfield',
       '#default_value' => $name,
       '#autocomplete_path' => 'pinboard/autocomplete',
       '#size' => 16,
       '#maxlength' => 1024,
       '#weight' => (isset($fw['extra_fields']['form']['pinboard_board']['weight']) ? $fw['extra_fields']['form']['pinboard_board']['weight'] : -5),
-      '#required' => true,
-      '#description' => t('从列表中选择所属板块，或者直接输入新的板块'),
+      '#required' => false,
+      '#description' => t('从列表中选择已有专辑，或者直接输入新的专辑名称'),
     );
     if (isset($form['#node']->did)) {
       $form['pinboard_did'] = array(
@@ -1033,7 +1035,7 @@ function pinboard_helper_form_alter(&$form, $form_state, $form_id) {
         '#type' => 'hidden',
         '#value' => 'separator',
         '#weight' => (isset($fw['extra_fields']['form']['pinboard_separator']['weight']) ? $fw['extra_fields']['form']['pinboard_separator']['weight'] : 3),
-        '#suffix' => '<fieldset class="collapsible collapsed form-wrapper" id="edit-advansed-pin-settings"><legend><span class="fieldset-legend">'.t('Advanced Settings').'</span></legend><div class="fieldset-wrapper">',
+        '#suffix' => '<fieldset class="collapsible collapsed form-wrapper" id="edit-advansed-pin-settings"><legend><span class="fieldset-legend">'.t('更多录入信息').'</span></legend><div class="fieldset-wrapper">',
     );
     if (!user_access('Visible Advanced Settings')) $form['pinboard_separator']['#prefix'] = '<style type="text/css">#edit-advansed-pin-settings {display:none;visibility:hidden;}</style>';
     //$form['body']['#suffix'] = '<fieldset class="collapsible collapsed form-wrapper" id="edit-advansed-pin-settings"><legend><span class="fieldset-legend">'.t('Advanced Settings').'</span></legend><div class="fieldset-wrapper">';
@@ -1305,12 +1307,15 @@ function pinboard_helper_node_load($nodes, $types) {
   }
 	$an = t('Anonimous');
 	$bn = t('None');
+  $node_count=count($nodes);
   foreach ($nodes as $record) {
     if (!isset($record->ph_did) or !$record->ph_did) $nodes[$record->nid]->ph_did = $record->nid;
     if (!isset($record->ph_bid) or !$record->ph_bid) $nodes[$record->nid]->ph_bid = 0;    
     $nodes[$record->nid]->ph_uid = isset($nsu[$nodes[$record->nid]->ph_did]) ? $nsu[$nodes[$record->nid]->ph_did] : $nodes[$record->nid]->uid;
     $nodes[$record->nid]->ph_name = (isset($usu[$nodes[$record->nid]->ph_uid])) ? $usu[$nodes[$record->nid]->ph_uid] : $an;
     $nodes[$record->nid]->ph_bname = (isset($bsu[$nodes[$record->nid]->ph_bid])) ? $bsu[$nodes[$record->nid]->ph_bid] : $bn;
+    $nodes[$record->nid]->node_index = $node_count;
+    $node_count--;
   }
   //drupal_set_message('<pre>'. check_plain(print_r($nsu, 1).' - '.print_r($usu, 1)) .'</pre>');
 }
@@ -3224,22 +3229,25 @@ function pinboard_helper_userpage_pins () {
         ->condition('bid', arg(3))
         ->condition('uid', arg(1))
         ->execute()->fetchCol(); 
-          
+      $out.='<div class="node_pin_page">';
       if ($user->uid and $acc->uid != $user->uid) 
         if (pinboard_helper_isfollow ($acc, arg(3))) 
-          $out .= '<div class="flr"><a href="'.url('unfollow/'.$acc->uid.'/'.arg(3), array('query' => $destination)).'">'.t('Unfollow').'</a></div>';
+          $out .= '<div class="flr"><a href="'.url('unfollow/'.$acc->uid.'/'.arg(3), array('query' => $destination)).'">'.'取消关注'.'</a></div>';
         else
-          $out .= '<div class="flr"><a href="'.url('follow/'.$acc->uid.'/'.arg(3), array('query' => $destination)).'">'.t('Follow').'</a></div>';
-        if (isset($result[0])) $out .= '<h3>'.$result[0].'</h3>';
+          $out .= '<div class="flr"><a href="'.url('follow/'.$acc->uid.'/'.arg(3), array('query' => $destination)).'">'.'关注'.'</a></div>';
+        if (isset($result[0])) $out .= '<h1 class="title">'.$result[0].'</h1>';
         if (!isset($_GET['page']) and $bdata['description']) $out .= '<p>'.$bdata['description'].'</p>';
-        if ($out) $out = '<div class="titlebg">'.$out.'</div>';
-        $out .= '<div id="block-system-main" class="block block-system"><div class="content">';
+        //if ($out) $out = '<div class="titlebg">'.$out.'</div>';
+        $out.='</div>';//node_pin_page
+
+        $out .= '<div class="pin_page masonry">';
         $result = db_select('pinboard_repins', 'r')->extend('PagerDefault')->fields('r', array('nid'))->condition('bid', arg(3), '=')->orderBy('nid', 'DESC')->limit(15)->execute()->fetchCol();
     } else {
       $out .= ''.'';
-      $out .= '<div id="block-system-main" class="block block-system"><div class="content">';
+      $out .= '<div class="pin_page masonry">';
       $result = db_select('node', 'r')->extend('PagerDefault')->fields('r', array('nid'))->condition('type', 'pin', '=')->condition('status', 1, '=')->condition('uid', $acc->uid, '=')->orderBy('created', 'DESC')->limit(15)->execute()->fetchCol();
     }
+    
     $nodes = node_load_multiple($result);
     $nodes = node_view_multiple($nodes);
     
@@ -3247,10 +3255,12 @@ function pinboard_helper_userpage_pins () {
     if (!$pp or !isset($_GET['page']) or strpos($pp,'page='.$_GET['page']) or strpos($pp, '>'.($_GET['page'] + 1).'<'))
     	$out .= render($nodes);
     $out .= $pp;
+    $out .='</div>';//pin_page
   } elseif (arg(2) == 'followers') {
-    $out1 = '';
-    $out1 .= '<div class="titlebg"><h2>'.t('Followers').'</h2></div>';
-    $out1 .= '<div id="block-system-main" class="block block-system"><div class="content">';
+    $out1 = '<div class="node_pin_page">';
+    $out1 .= '<h1 class="title">'.t('关注你的人').'</h1>';
+    $out1 .='</div>';
+    $out1 .= '<div class="pin_page masonry">';
     $uids = db_select('pinboard_follow','p')
       ->extend('PagerDefault')
       ->limit(15)
@@ -3268,7 +3278,7 @@ function pinboard_helper_userpage_pins () {
         ->range(0, 12)->execute()->fetchCol();
       $nodes = node_load_multiple($result);
       $nodes = node_view_multiple($nodes);
-      $out1 .= '<div class="repins_box zoom_info"><h3>'.theme('username', array('account' => $ui)).'</h3><a href="'.url('user/'.$ui->uid).'"><ul class="b_thumbs">';
+      $out1 .= '<div class="blk2"><h3>'.theme('username', array('account' => $ui)).'</h3><a href="'.url('user/'.$ui->uid).'"><ul class="b_thumbs">';
       foreach ($nodes['nodes'] as $k2 => $v2) {
         if (isset($v2['field_image'][0]['#image_style'])) $v2['field_image'][0]['#image_style'] = 'pin_tmb_2';
         if (isset($v2['field_image'][0]['#path'])) $v2['field_image'][0]['#path'] = '';
@@ -3281,10 +3291,12 @@ function pinboard_helper_userpage_pins () {
     if (!$pp or !isset($_GET['page']) or strpos($pp,'page='.$_GET['page']) or strpos($pp, '>'.($_GET['page'] + 1).'<'))
       $out .= $out1;
     $out .= $pp;
+    $out .='</div>';
   } elseif (arg(2) == 'following') {
-    $out1 = '';
-    $out1 .= '<div class="titlebg"><h2>'.t('Following').'</h2></div>';
-    $out1 .= '<div id="block-system-main" class="block block-system"><div class="content">';
+    $out1 = '<div class="node_pin_page">';
+    $out1 .= '<h1 class="title">'.t('你关注的人').'</h1>';
+    $out1 .='</div>';
+    $out1 .= '<div class="pin_page masonry">';
     $uids = db_select('pinboard_follow','p')
       //->fields('p', array('uid'));
       ->condition('p.uid', $acc->uid);
@@ -3300,7 +3312,7 @@ function pinboard_helper_userpage_pins () {
         ->range(0, 12)->execute()->fetchCol();
       $nodes = node_load_multiple($result);
       $nodes = node_view_multiple($nodes);
-      $out1 .= '<div class="repins_box zoom_info"><h3>'.theme('username', array('account' => $ui)).'</h3><a href="'.url('user/'.$ui->uid).'"><ul class="b_thumbs">';
+      $out1 .= '<div class="blk2"><h3>'.theme('username', array('account' => $ui)).'</h3><a href="'.url('user/'.$ui->uid).'"><ul class="b_thumbs">';
       foreach ($nodes['nodes'] as $k2 => $v2) {
         if (isset($v2['field_image'][0]['#image_style'])) $v2['field_image'][0]['#image_style'] = 'pin_tmb_2';
         if (isset($v2['field_image'][0]['#path'])) $v2['field_image'][0]['#path'] = '';
@@ -3312,6 +3324,7 @@ function pinboard_helper_userpage_pins () {
     if (!$pp or !isset($_GET['page']) or strpos($pp,'page='.$_GET['page']) or strpos($pp, '>'.($_GET['page'] + 1).'<'))
     	$out .= $out1;
     $out .= $pp;
+    $out .='</div>';
     } else {
       $out1 = '<div class="board_page">';
       //$out1 = '<div id="block-system-main" class="block block-system"><div class="content">';
@@ -3358,11 +3371,11 @@ function pinboard_helper_userpage_pins () {
         
         if ($user->uid and $acc->uid != $user->uid) { 
           if (pinboard_helper_isfollow ($acc, $k)) 
-            $out1 .= '<div class="board-links"><a href="'.url('unfollow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.t('Unfollow').'</a></div>';
+            $out1 .= '<div class="board-links"><a href="'.url('unfollow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.'取消关注'.'</a></div>';
           else
-            $out1 .= '<div class="board-links"><a href="'.url('follow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.t('Follow').'</a></div>';
+            $out1 .= '<div class="board-links"><a href="'.url('follow/'.$acc->uid.'/'.$k, array('query' => $destination)).'">'.'关注'.'</a></div>';
         } elseif ($user->uid) {
-          $out1 .= '<div class="board-links"><a href="'.url('board/edit/'.$k, array('query' => $destination)).'">'.t('Edit').'</a></div>';
+          $out1 .= '<div class="board-links"><a href="'.url('board/edit/'.$k, array('query' => $destination)).'">'.'编辑'.'</a></div>';
         }
         $out1 .= '</div>';
         //} else {
@@ -3506,5 +3519,65 @@ function pinboard_helper_like_box_out($node) {
     $out .= '<li>'.theme('user_picture', array('account' => $ruser)).'</li>';
     unset($ruser);
   }
+  return $out;
+}
+
+function pinboard_helper_top_users(){
+  $out='';
+  /*$query = db_select('node', 'n');
+  $query->addField('n', 'count(nid)','ncount');
+  $query->addField('u');
+  $query->condition('n.type', 'pin', '=');
+  $query->groupBy('n.uid');
+  $query->range(0, 5);
+  $result = $query->execute()->fetchCol();*/
+  $result= db_query("SELECT count(nid) ncount,uid FROM {node} n where type='pin' group by uid LIMIT 0,5");
+  foreach ($result as $top_user) {
+    $_user=user_load($top_user->uid);
+    $out.='<div class="user">'.theme('user_picture', array('account' => $_user)).theme('username', array('account' => $_user)).'</div>';
+  }
+  return $out;
+}
+
+function pinboard_helper_top_borads(){
+  $out='<div class="boards_top">';
+  $result= db_query("SELECT count(f.uid) ucount,f.uid,pid,b.name FROM {pinboard_follow} f left join {pinboard_boards} b on f.pid=b.bid group by pid order by ucount desc LIMIT 0,3");
+  foreach ($result as $top_board) {    
+      $result2 = db_select('pinboard_repins', 'r')->fields('r', array('nid'))->condition('bid', $top_board->pid, '=')->orderBy('nid', 'DESC')->range(0, 9)->execute()->fetchCol();
+      if (count($result2)) {
+        $out .= '<div class="board_box"><a class="boards" href="'.url('user/'.$top_board->uid.'/board/'.$top_board->pid).'"><div class="title">'.$top_board->name.'</div>';
+        $nodes = node_load_multiple($result2);
+        $nodes = node_view_multiple($nodes);
+        //print '<div class="user_profile_main"><pre>'. check_plain(print_r($nodes['nodes'], 1)) .'</pre></div>'; 
+        foreach ($nodes['nodes'] as $k => $v) {
+          //print '<div class="user_profile_main"><pre>'. check_plain(print_r($v2['field_embed'], 1)) .'</pre></div>';  
+          if (isset($v['field_image']) and is_array($v['field_image'])) { 
+            if (isset($v['field_image'][0]['#image_style'])) $v['field_image'][0]['#image_style'] = 'pin_tmb_2';
+            if (isset($v['field_image'][0]['#path'])) $v['field_image'][0]['#path'] = '';
+            $out .= render($v['field_image']);
+          } elseif (isset($v['field_embed']) and is_array($v['field_embed'])) {
+            if (isset($v['field_embed'][0][0]['#style_name'])) $v['field_embed'][0][0]['#style_name'] = 'pin_tmb_2';
+            if (isset($v['field_embed'][0]['#prefix'])) $v['field_embed'][0]['#prefix'] = '';
+            if (isset($v['field_embed'][0]['#suffix'])) $v['field_embed'][0]['#suffix'] = '';
+            $out .= render($v['field_embed']);
+          }
+        }
+        $ii = 9 - count($result2);
+      } else {
+        $out .= '<div class="board_box"><a class="boards" href="#"><div class="title">'.$top_board->name.'</div>';
+        $ii = 9;
+      }
+      for ( $i=0; $i<$ii; $i++) {
+        $out .= '<img src="'.url('sites/all/themes/pinboard/img/tr.png').'"/>';
+      }
+      if (count($result2)) {
+        $out .= '</a>';
+      } else {
+        $out .= '</a>';
+      }
+      
+      $out .= '</div>';
+    }
+  $out .= '</div>';
   return $out;
 }

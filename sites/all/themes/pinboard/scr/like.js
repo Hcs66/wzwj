@@ -24,7 +24,7 @@
     $.event.trigger('eventBeforeRate', [data]);
     var content_id = data.content_id;
 
-    $(".likesresult-" + content_id).html('<span class="likesresult-' + content_id + '">' + Drupal.t('正在保存...') + '</span>');
+    $(".likesresult-" + content_id).html('<span class="likesresult-' + content_id + '">' + Drupal.t('请稍候...') + '</span>');
 
     var random = Math.floor(Math.random() * 99999);
 

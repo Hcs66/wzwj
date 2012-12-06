@@ -24,7 +24,7 @@
   background: url(thumbs.png) no-repeat 0 0;
   width: 24px;
   height: 24px;
-  text-indent: -999px;
+  text-indent: -9999px;
 }
 .rate-user .rate-thumbs-up-down-btn-up {
   background: url(thumbs.png) no-repeat 0 -24px;
@@ -41,7 +41,7 @@
   background: url(thumbs.png) no-repeat 0 -48px;
   width: 24px;
   height: 24px;
-  text-indent: -999px;
+  text-indent: -9999px;
 }
 .rate-user .rate-thumbs-up-down-btn-down {
   background: url(thumbs.png) no-repeat 0 -72px;

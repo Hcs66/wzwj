@@ -26,9 +26,17 @@ function rate_results_page($node) {
     $count = 0;
     $average = 0;
     $sum = 0;
+    $votingapi_functions = array('count', 'average', 'sum');
+
     foreach ($votingapi_results as $result) {
-      ${$result['function']} = $result['value'];
+      if (!in_array($result['function'], $votingapi_functions)) { //custom options, need to tally these together to get a total count
+        $count += $result['value'];
+      }
+      else {
+        ${$result['function']} = $result['value'];
+      }
     }
+
     $output .= '<p>';
     $output .= t('Vote count: @count', array('@count' => $count)) . ' ';
     if ($widget->value_type != 'option') {

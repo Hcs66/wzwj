@@ -1,0 +1,479 @@
+<?php
+
+
+function jquery_file_upload_init() {
+  global $base_url;
+  drupal_add_js('var base_path = "' . $base_url . '/";', 'inline');
+}
+
+function jquery_file_upload_menu() {
+
+  $items['jquery_file_upload/upload'] = array(
+      'page callback' => 'jquery_file_uploader_upload',
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK,
+  );
+  $items['jquery_file_upload/delete/%/%'] = array(
+      'page callback' => 'jquery_file_uploader_delete',
+      'page arguments' => array(2,3),
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK,
+  );
+  
+   $items['admin/config/media/jquery_file_upload'] = array(
+      'title' => t('Jquery File Uploader'), 
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('jquery_file_upload_configuration_form'),
+      'access arguments' => array('access content'),
+      'type' => MENU_NORMAL_ITEM,
+  );
+  
+  $items['jquery_file_upload/get_remaining_space'] = array(
+      'title' => t(''), 
+      'page callback' => 'jquery_file_upload_calculate_space',
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function jquery_file_upload_block_info() {
+
+  $blocks['jquery_file_uploader'] = array(
+      'info' => t('jQuery File Uploader'),
+      'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+function jquery_file_upload_block_view($delta = '') {
+
+  $block = array();
+
+  switch ($delta) {
+    case 'jquery_file_uploader':
+      $block['subject'] = t('Upload');
+      $block['content'] = drupal_get_form('jquery_file_upload_form');
+      break;
+  }
+  global $user;
+  $roles = $user->roles;
+  $roles_compare = array();
+  foreach($roles as $role_index=>$role_name){
+    if(strpos($role_name, ' ') > 0){
+       $current_role = str_replace(' ', '_', $role_name);
+     }else{
+       $current_role = $role_name;
+     }
+     $roles_compare[$role_index] = array(variable_get('max_file_size_'.$current_role, 0), variable_get('max_quota_'.$current_role, 0));
+  }
+  $large_values_index = jquery_file_upload_get_role_index($roles_compare);
+  $current_role = $roles[$large_values_index];
+  if(strpos($current_role, ' ') > 0){
+       $final_role = str_replace(' ', '_', $current_role);
+  }else{
+       $final_role = $current_role;
+  }
+  //get space taken up till now
+  $space_taken = 0;
+  $sql_query = db_query("SELECT * FROM {jquery_file_upload} WHERE uid = :uid", array(':uid' => $user->uid));
+  while($row = $sql_query->fetchAssoc()){
+    $space_taken += floatval($row['file_size']);
+  }
+  $js_vars = new stdClass;
+  $js_vars->filetypes = str_replace(' ', '|', variable_get('types_supported_'.$final_role, ''));
+  $js_vars->max_file_size = variable_get('max_file_size_'.$final_role, 0)*1024*1024;
+  $js_vars->space_remaining = variable_get('max_quota_'.$final_role, 0)*1024*1024 - $space_taken;
+  drupal_add_js("jQuery(function(){ init_fileuploader(" . json_encode($js_vars) . "); });", "inline");
+  return $block;
+}
+
+function jquery_file_upload_form($form, &$form_state) {
+
+  drupal_add_css('http://blueimp.github.com/cdn/css/bootstrap.min.css', array('type' => 'external'));
+  drupal_add_css(drupal_get_path('module', 'jquery_file_upload') . '/css/jquery.fileupload-style.css');
+  drupal_add_css('http://blueimp.github.com/cdn/css/bootstrap-responsive.min.css', array('type' => 'external'));
+  drupal_add_css('http://blueimp.github.com/Bootstrap-Image-Gallery/css/bootstrap-image-gallery.min.css', array('type' => 'external'));
+  drupal_add_css(drupal_get_path('module', 'jquery_file_upload') . '/css/jquery.fileupload-ui.css');
+
+  $form['#attributes'] = array('enctype' => 'multipart/form-data');
+
+  $form['#action'] = 'jquery_file_upload/upload';
+
+  $form['formhtml'] = array(
+      '#markup' => '<div class="row fileupload-buttonbar">
+            <div class="span7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="icon-plus icon-white"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" multiple>
+                </span>
+                <button type="submit" class="btn btn-primary start">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Start upload</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <button type="button" class="btn btn-danger delete">
+                    <i class="icon-trash icon-white"></i>
+                    <span>Delete</span>
+                </button>
+                <input type="checkbox" class="toggle">
+            </div>
+            <!-- The global progress information -->
+            <div class="span5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="bar" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress information -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The loading indicator is shown during file processing -->
+        <div class="fileupload-loading"></div>
+        <br>
+        <!-- The table listing the files available for upload/download -->
+        <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>'
+  );
+
+  $form['#suffix'] = '<div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+    <div class="modal-footer">
+        <a class="btn modal-download" target="_blank">
+            <i class="icon-download"></i>
+            <span>Download</span>
+        </a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000">
+            <i class="icon-play icon-white"></i>
+            <span>Slideshow</span>
+        </a>
+        <a class="btn btn-info modal-prev">
+            <i class="icon-arrow-left icon-white"></i>
+            <span>Previous</span>
+        </a>
+        <a class="btn btn-primary modal-next">
+            <span>Next</span>
+            <i class="icon-arrow-right icon-white"></i>
+        </a>
+    </div>
+</div>
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+            </td>
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i>
+                    <span>{%=locale.fileupload.start%}</span>
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">{% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>{%=locale.fileupload.cancel%}</span>
+            </button>
+        {% } %}</td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td></td>
+            <td class="name"><span>{%=file.name%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+            <td class="preview">{% if (file.thumbnail_url) { %}
+                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+            {% } %}</td>
+            <td class="name">
+                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&\'gallery\'%}" download="{%=file.name%}">{%=file.name%}</a>
+            </td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td colspan="2"></td>
+        {% } %}
+        <td class="delete">
+            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+                <i class="icon-trash icon-white"></i>
+                <span>{%=locale.fileupload.destroy%}</span>
+            </button>
+            <input type="checkbox" name="delete" value="1">
+        </td>
+    </tr>
+{% } %}
+</script>
+<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+<script src="' . base_path() . drupal_get_path('module', 'jquery_file_upload') . '/js/vendor/jquery.ui.widget.js"></script>
+<!-- The Templates plugin is included to render the upload/download listings -->
+<script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script>
+<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
+<!-- The Canvas to Blob plugin is included for image resizing functionality -->
+<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
+<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
+<script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
+<script src="http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js"></script>
+<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+<script src="' . base_path() . drupal_get_path('module', 'jquery_file_upload') . '/js/jquery.iframe-transport.js"></script>
+<!-- The basic File Upload plugin -->
+<script src="' . base_path() . drupal_get_path('module', 'jquery_file_upload') . '/js/jquery.fileupload.js"></script>
+<!-- The File Upload file processing plugin -->
+<script src="' . base_path() . drupal_get_path('module', 'jquery_file_upload') . '/js/jquery.fileupload-fp.js"></script>
+<!-- The File Upload user interface plugin -->
+<script src="' . base_path() . drupal_get_path('module', 'jquery_file_upload') . '/js/jquery.fileupload-ui.js"></script>
+<!-- The localization script -->
+<script src="' . base_path() . drupal_get_path('module', 'jquery_file_upload') . '/js/locale.js"></script>
+<!-- The main application script -->
+<script src="' . base_path() . drupal_get_path('module', 'jquery_file_upload') . '/main.js"></script>';
+  return $form;
+}
+
+function jquery_file_uploader_upload() {
+
+  if (array_key_exists('files', $_FILES)) {
+
+    global $base_url, $user;
+    
+    //check for folders
+    $current_directory = getcwd();
+    if(!file_exists($current_directory.'/'.variable_get('file_public_path', conf_path() . '/files') .'/file_uploads')){
+      $result = mkdir ($current_directory.'/'.variable_get('file_public_path', conf_path() . '/files') .'/file_uploads');
+    }
+    if(!file_exists($current_directory.'/'.variable_get('file_public_path', conf_path() . '/files') .'/file_uploads/'.$user->uid)){
+      $result = mkdir ($current_directory.'/'.variable_get('file_public_path', conf_path() . '/files') .'/file_uploads/'.$user->uid);
+    }
+
+    $secure_file_name = file_munge_filename($_FILES['files']['name'][0], "gif jpeg jpg png tiff asf avi mpeg mpg wmv vob mov mp4 flv txt doc docx xls xlsx ppt pptx mp3");
+
+    //$ok = move_uploaded_file($_FILES['files']['tmp_name'][0], 'sites/default/files/file_uploads/'. $user->uid . '/' . $secure_file_name);
+    $file = (object) array(
+    'uid' => 1,
+    'uri' => drupal_realpath($_FILES['files']['tmp_name'][0]),
+    'filemime' => file_get_mimetype(drupal_realpath($_FILES['files']['tmp_name'][0])),
+    'status' => 1,
+  );
+    $ok = file_copy($file, file_build_uri('/file_uploads/'. $user->uid . '/' . $secure_file_name));
+
+    if ($ok) {
+      
+      
+      //add node
+      $node = new StdClass();
+      $filenamexx = explode(".", $_FILES['files']['name'][0]);
+      $node->type = 'jquery_uploader_node';
+      $node->uid = $user->uid;
+      $node->status = 1;
+      $node->title = $filenamexx[0];
+      
+      $ok->display = 1;
+      $node->field_jquery_uploader_file['und'][0] = (array)$ok;
+      node_save($node);
+      
+      $nid = db_insert('jquery_file_upload') // Table name no longer needs {}
+               ->fields(array(
+                              'uid' => $user->uid,
+                              'file_name' => $_FILES['files']['name'][0],
+                              'file_size' => floatval($_FILES['files']['size'][0]),
+                              ))
+              ->execute();
+      ///////////////////////////////////////////
+      $token = drupal_get_token($secure_file_name);
+
+      $file = array(
+          'name' => $_FILES['files']['name'][0],
+          'size' => $_FILES['files']['size'][0],
+          'url' => $base_url . '/sites/default/files/file_uploads/'. $user->uid . '/' . $secure_file_name,
+          'thumbnail_url' => image_style_url('thumbnail', file_build_uri('/file_uploads/' . $user->uid .'/'. $secure_file_name)),
+          'delete_url' => $base_url . '/jquery_file_upload/delete/' . $secure_file_name . '/'. $token,
+          'delete_type' => 'DELETE',
+      );
+      drupal_json_output(array($file));
+    }
+  }
+}
+
+function jquery_file_uploader_delete($name, $token) {
+  global $user;
+  if (file_exists('sites/default/files/file_uploads/' . $user->uid. '/' . $name) && drupal_valid_token($token, $name)) {
+    unlink('sites/default/files/file_uploads/' . $user->uid. '/' . $name);
+    $num_deleted = db_delete('jquery_file_upload')
+                     ->condition('uid', $user->uid)
+                     ->condition('file_name', $name)
+                     ->execute();
+    $filenamexx = explode(".", $name);
+    $sql_query = db_query("SELECT nid FROM {node} WHERE type = 'jquery_uploader_node' AND title = :title", array(':title' => $filenamexx[0]));
+    $result = $sql_query->fetchAssoc();
+    $nid = $result['nid'];
+    node_delete($nid);
+    }
+}
+
+function jquery_file_upload_configuration_form($form, &$form_state){
+  $user_roles = user_roles(TRUE);
+  
+  $form['max_file_size'] = array (
+      '#type' => 'fieldset', 
+      '#title' => t('Maximum file size per role'), 
+      '#collapsible' => TRUE, 
+      '#collapsed' => FALSE,
+      '#description' => t('Enter Max File Size in MB.'),
+  );
+  
+  foreach($user_roles as $index=>$role){
+    if(strpos($role, ' ') > 0){
+       $current_role = str_replace(' ', '_', $role);
+     }else{
+       $current_role = $role;
+     }
+    $form['max_file_size']['max_file_size_'.$index] = array (
+      '#type' => 'textfield', 
+      '#title' => t('Role: '.$role), 
+      '#default_value' => variable_get('max_file_size_'.$current_role, 0), 
+      '#size' => 30, 
+      '#maxlength' => 128, 
+      '#required' => TRUE,
+        );
+  }
+  
+  $form['max_quota'] = array (
+      '#type' => 'fieldset', 
+      '#title' => t('Maximum Quota per role'), 
+      '#collapsible' => TRUE, 
+      '#collapsed' => FALSE,
+      '#description' => t('Enter Max Quota in MB.'),
+  );
+  
+  foreach($user_roles as $index=>$role){
+    if(strpos($role, ' ') > 0){
+       $current_role = str_replace(' ', '_', $role);
+     }else{
+       $current_role = $role;
+     }
+    $form['max_quota']['max_quota_'.$index] = array (
+      '#type' => 'textfield', 
+      '#title' => t('Role: '.$role), 
+      '#default_value' => variable_get('max_quota_'.$current_role, 0), 
+      '#size' => 30, 
+      '#maxlength' => 128, 
+      '#required' => TRUE,
+        );
+  }
+  
+  $form['types_supported'] = array (
+      '#type' => 'fieldset', 
+      '#title' => t('Files allowed'), 
+      '#collapsible' => TRUE, 
+      '#collapsed' => FALSE,
+      '#description' => t('Enter Extensions separted by space.'),
+  );
+  foreach($user_roles as $index=>$role){
+    if(strpos($role, ' ') > 0){
+       $current_role = str_replace(' ', '_', $role);
+     }else{
+       $current_role = $role;
+     }
+    $form['types_supported']['types_supported_'.$index] = array (
+      '#type' => 'textfield', 
+      '#title' => t('Role: '.$role), 
+      '#default_value' => variable_get('types_supported_'.$current_role, ''), 
+      '#size' => 30, 
+      '#maxlength' => 128, 
+      '#required' => TRUE,
+        );
+  }
+  
+  $form['submit'] = array ('#type' => 'submit', '#value' => t('Save Configuration'));
+  
+  return $form;
+}
+
+function jquery_file_upload_configuration_form_submit($form, &$form_state){
+  $user_roles = user_roles(TRUE);
+  foreach($user_roles as $index=>$role){
+     if(strpos($role, ' ') > 0){
+       $current_role = str_replace(' ', '_', $role);
+     }else{
+       $current_role = $role;
+     }
+     variable_set('max_file_size_'.$current_role, $form_state['values']['max_file_size_'.$index]);
+     variable_set('max_quota_'.$current_role, $form_state['values']['max_quota_'.$index]);
+     variable_set('types_supported_'.$current_role, $form_state['values']['types_supported_'.$index]);
+   }
+}
+
+function jquery_file_upload_get_role_index($roles_values){
+  if(count($roles_values) == 1){
+    foreach($roles_values as $role_index=>$values){
+      $returned_index = $role_index;
+    }
+  }
+  else{
+    $keys = array_keys($roles_values);
+    $returned_index = $keys[0];
+    foreach($roles_values as $role_index=>$values){
+      if($returned_index != $role_index){
+        $returned_values = $roles_values[$returned_index];
+        if($values[0] > $returned_values[0] && $values[1] > $returned_values[1]){
+          $returned_index = $role_index;
+        }
+      }
+    }
+  }
+  
+  return $returned_index;
+}
+
+function jquery_file_upload_calculate_space(){
+  global $user;
+  $roles = $user->roles;
+  $roles_compare = array();
+  foreach($roles as $role_index=>$role_name){
+    if(strpos($role_name, ' ') > 0){
+       $current_role = str_replace(' ', '_', $role_name);
+     }else{
+       $current_role = $role_name;
+     }
+     $roles_compare[$role_index] = array(variable_get('max_file_size_'.$current_role, 0), variable_get('max_quota_'.$current_role, 0));
+  }
+  $large_values_index = jquery_file_upload_get_role_index($roles_compare);
+  $current_role = $roles[$large_values_index];
+  if(strpos($current_role, ' ') > 0){
+       $final_role = str_replace(' ', '_', $current_role);
+  }else{
+       $final_role = $current_role;
+  }
+  //get space taken up till now
+  $space_taken = 0;
+  $sql_query = db_query("SELECT * FROM {jquery_file_upload} WHERE uid = :uid", array(':uid' => $user->uid));
+  while($row = $sql_query->fetchAssoc()){
+    $space_taken += floatval($row['file_size']);
+  }
+  
+  $space_remaining = variable_get('max_quota_'.$final_role, 0)*1024*1024 - $space_taken;
+  print $space_remaining;
+}

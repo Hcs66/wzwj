@@ -1,5 +1,5 @@
 body {
-	color: rgb(51, 51, 51); background-image: url("../img/bg1.png");
+	background-color: rgb(244, 244, 244); /*background-image: url("../img/bg1.png");*/
 }
 a {
 	color: rgb(51, 102, 153);
@@ -53,7 +53,7 @@ h1 {
 	color: rgb(51, 51, 51);
 }
 .header .nav ul.menu li a:hover {
-	color: rgb(102, 102, 102);
+	color: #579d0c;
 }
 .header .nav ul.menu .expanded a {
 	background-image: url("../img/menu-b.png");
@@ -257,7 +257,7 @@ h1 {
 	color: rgb(153, 153, 153);
 }
 .blog {
-	border: 1px solid rgb(201, 201, 197); color: rgb(102, 102, 102); background-color: rgb(255, 255, 255);
+	/*border: 5px solid rgb(201, 201, 197);*/ color: rgb(102, 102, 102); background-color: rgb(255, 255, 255);
 }
 .blog .info {
 	color: rgb(153, 153, 153);
@@ -272,7 +272,7 @@ h1 {
 	color: rgb(51, 51, 51);
 }
 .blog .block {
-	color: rgb(153, 153, 153);
+	/*color: rgb(153, 153, 153);*/
 }
 .blog .left.block {
 	border-right-color: rgb(214, 224, 235);

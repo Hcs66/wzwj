@@ -1,12 +1,13 @@
 body {
 	margin: 0px;
 	padding: 0px;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 微软雅黑,Arial, Helvetica, sans-serif;
 	font-size: 14px;
-	background-image: url(../img/bg1.png);
+	/*background-image: url(../img/bg1.png);*/
 	background-repeat: repeat;
 	color: #333;
 }
+
 a {
 	color: #336699;
 	text-decoration: none;
@@ -57,7 +58,7 @@ input[type="password"]
 	background-color: #f5f5f1;
 	height: 24px;
 	margin-top: 3px;
-	width: 80%;
+	/*width: 80%;*/
 }
 select {
 	font-size:14px;
@@ -464,6 +465,11 @@ fieldset.flags input[type="submit"],
 .header .nav ul.menu ul.menu li a:hover {
 	color: #333;
 }
+.header .nav ul.menu li.active-trail{
+	 border-radius: 5px;
+	 border: 1px solid #579d0c;
+	 background-color: #c0d679;
+}
 .header .nav .search-b {
 	background-image: url(../img/search-h-bg-g.png);
 	background-repeat: no-repeat;
@@ -549,7 +555,7 @@ display: inline;
 	border-bottom-left-radius:8px;
 }
 .board_box {
-	width: 228px;
+	width: 245px;
 	float: left;
 	margin-right: 6px;
 	margin-bottom: 12px;
@@ -642,6 +648,12 @@ display: inline;
 .pin_box .comment.all {
 	min-height: 0;
 	text-align: center;
+}
+.comment_box{
+	margin: 15px 0;
+}
+.comment_date{
+	margin-left: 20px;
 }
 .pin_box .action {
 	background-image: url(../img/bg-pin-action.png);
@@ -851,11 +863,11 @@ display: none;
 .board_box .noimgpinbrd img,
 .board_box .field-item img
 {
-	margin: 0px;
+	margin: 0 5px 0 0;
 	padding: 0px;
 	height: 70px;
 	width: 70px;
-	opacity: 0.5;
+	opacity: 0.8;
 }
 .board_box .noimgpinbrd,
 .board_box .field-item
@@ -971,8 +983,25 @@ margin: 1px 0 10px 6px;
 	margin-right: 0px;
 	margin-left: 8px;
 }
-.pin-image {
+
+.pin-title{
+	text-align: center;
 	margin-top: 15px;
+	background-color: #f3f3ef;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-right-color: #e9e9e5;
+	border-bottom-color: #e9e9e5;
+	border-left-color: #e9e9e5;
+	position: relative;e
+	overflow: hidden;
+}
+
+.pin-image {
 	background-color: #f4f4f0;
 	border: 1px solid #e9e9e5;
 	position: relative;
@@ -982,6 +1011,16 @@ margin: 1px 0 10px 6px;
 .pin-image img{
 	width: auto;
 	height: auto;
+}
+.pin-category div.field-type-taxonomy-term-reference{
+	display:  inline-block;
+}
+.pin-image h1{
+	 margin: 10px;
+	 font-size: 24px;
+}
+.pin-node .rate-widget{
+	float:  right;
 }
 .pin-des {
 	background-color: #f3f3ef;
@@ -1122,13 +1161,14 @@ margin: 1px 0 10px 6px;
 	background-color: #f5f5f1;
 }
 .node_pin_page .right {
-	width: 230px;
+	width: 200px;
 	margin-bottom: 25px;
 }
 .node_pin_page .right .inn {
 	background-color: #fafaf7;
 	padding: 10px;
 	border: 1px solid #eaeae6;
+	border-radius: 4px;
 }
 .pin-block-category,
 .pin-block-originally,
@@ -1222,8 +1262,9 @@ margin: 1px 0 10px 6px;
 	padding: 10px;
 	border: 1px solid #c9c9c5;
 	margin-bottom: 10px;
-	font-size: 12px;
+	font-size: 14px;
 	color: #666;
+	border-radius: 4px;
 }
 .blog p {
 font-size: 12px;
@@ -1234,8 +1275,7 @@ font-size: 12px;
 line-height: 18px;
 }
 .blog img {
-	float: left;
-	margin-right: 10px;
+
 }
 .blog .info {
 	font-size: 10px;
@@ -1323,6 +1363,63 @@ line-height: 18px;
 .blog .comments .commentform textarea {
 	background-color: #fefefd;
 }
+/*表单样式-开始*/
+.blog input[type="submit"]{
+	background-image: url(../img/button-bg-prb-p.png);
+	background-repeat: repeat-x;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	padding-top: 7px;
+	padding-right: 10px;
+	padding-bottom: 7px;
+	padding-left: 10px;
+	color: #FFF;
+	margin-left: 10px;
+	font-size: 12px;
+	border-top-left-radius:4px;
+	border-top-right-radius:4px;
+	border-bottom-left-radius:4px;
+	border-bottom-right-radius:4px;
+	cursor: pointer;
+}
+.blog input[type="submit"]:hover {
+	background-image: url(../img/button-bg-prb-a.png);
+}
+
+.blog form input[type=text],form input[type=email],form input[type=password],form input[type=number], select, textarea {
+	padding:5px 10px;
+	border:1px solid #c0d679;
+	background:rgb(239, 247, 249);
+	font-weight:300;
+	color:#65645a;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+}
+
+.blog form input[type=text]:focus,form input[type=email]:focus,form input[type=password]:focus,form input[type=number]:focus,select:focus, textarea:focus {
+	border:1px solid #579d0c;
+}
+
+.blog form label {
+	font-weight:bold;
+	font-size:14px;
+	margin-bottom:3px;
+}
+.blog .form-title{
+	font-size:24px;
+	font-weight:bold;
+	margin-bottom:22px;
+	padding-bottom:20px;
+	border-bottom-color:#d2d0ca;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	color:#579D0C;
+}
+
+/*表单样式-结束*/
 .tab-block .tabs, .tab-block .tabs a, .tab-block .tabs a.active {
 border: none;
 }
@@ -1696,6 +1793,38 @@ font-size: 14px;
 	width: 100%;
 	clear: both;
 	float: none;
+	color: #ccc;
+}
+
+.pin_top {
+	border-bottom:1px solid rgb(232,232,227);
+}
+
+.pin_top h3{
+	margin: 10px 10px 10px 5px;
+	color: #579d0c;
+}
+.pin_top_box{
+	border: 1px solid rgb(232,232,227);
+	width: 226px; 
+}
+.pin_top_box .inbox{
+	margin-bottom: 10px;
+	border: 0px;
+}
+.pin_top_box .inbox .user{
+	border: 0px;
+}
+.boards_top{
+	margin-top: 10px;
+}
+.boards_top .board_box{
+	width: 208px;
+	float: none;
+}
+.boards_top .board_box img {
+	width: 55px;
+	height: 55px;
 }
 
 
@@ -2285,3 +2414,4 @@ font-size: 14px;
 	width: auto;
 }
 }
+

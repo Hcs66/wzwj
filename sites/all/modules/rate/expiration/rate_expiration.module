@@ -46,7 +46,7 @@ function rate_expiration_form_rate_widget_form_alter(&$form, &$form_state) {
 /**
  * Implements hook_rate_widget_insert().
  */
-function rate_expiration_rate_widget_insert(&$widget, $values) {
+function rate_expiration_rate_widget_insert($widget, $values) {
   $widget->expiration = $values['expiration'];
   $widget->expiration_allow_override = !empty($values['expiration_allow_override']);
 }
@@ -54,7 +54,7 @@ function rate_expiration_rate_widget_insert(&$widget, $values) {
 /**
  * Implements hook_rate_widget_update().
  */
-function rate_expiration_rate_widget_update(&$widget, $values) {
+function rate_expiration_rate_widget_update($widget, $values) {
   $widget->expiration = $values['expiration'];
   $widget->expiration_allow_override = !empty($values['expiration_allow_override']);
 }
@@ -62,7 +62,7 @@ function rate_expiration_rate_widget_update(&$widget, $values) {
 /**
  * Implements hook_rate_widget_alter().
  */
-function rate_expiration_rate_widget_alter(&$widget, $context) {
+function rate_expiration_rate_widget_alter($widget, $context) {
   extract($context); // Introduces $content_type and $content_id
   if ($content_type == 'node') {
     if ($node = node_load($content_id)) {

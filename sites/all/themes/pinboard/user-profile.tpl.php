@@ -12,8 +12,8 @@ $destination = drupal_get_destination();
   <div class="center">
     <h1><?php print $acc->name; ?></h1>
     <div class="stat">
-      <a href="<?php print url('user/'.$acc->uid.'/followers'); ?>"><?php print pinboard_helper_count_followers($acc->uid);?><span> <?php print t('followers');?></span></a>,
-      <a href="<?php print url('user/'.$acc->uid.'/following'); ?>"><?php print pinboard_helper_count_following($acc->uid);?><span> <?php print t('following');?></span></a>
+      <a href="<?php print url('user/'.$acc->uid.'/followers'); ?>">被<?php print pinboard_helper_count_followers($acc->uid);?>人关注</a>,
+      <a href="<?php print url('user/'.$acc->uid.'/following'); ?>">关注<?php print pinboard_helper_count_following($acc->uid);?>人</a>
     </div>
     <div class="actions">
       <a href="<?php print url('user/'.$acc->uid.'/board'); ?>"><?php print t('查看所有发表的信息'); ?></a>
@@ -21,7 +21,7 @@ $destination = drupal_get_destination();
     </div>
   </div>
 </div>
-<div class="clr"/>
+<div class="clr"></div>
 <?php print pinboard_helper_userpage_pins (); ?>
 <?php 
 

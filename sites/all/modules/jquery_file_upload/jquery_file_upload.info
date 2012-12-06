@@ -1,0 +1,11 @@
+name=jQuery File Upload
+description=A File Uploader using the jQuery File Upload project
+core=7.x
+package = User interface
+dependencies[] = jquery_update
+; Information added by drupal.org packaging script on 2012-08-18
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "jquery_file_upload"
+datestamp = "1345292743"
+
